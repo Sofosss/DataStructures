@@ -151,6 +151,29 @@ Finally, in [PROJECT_PART_II_C][project-part-II-C-link],  we replace the Binary 
 ```bash
 Hash("2014-02-13") = [ASCII(‘2’)+ ASCII(‘0’)+ ASCII(‘1’)+ ASCII(‘4’)+ ASCII(‘-’)+ ASCII(‘0’)+ ASCII(‘2’)+ ASCII(‘-’)+ ASCII(‘1’)+ ASCII(‘3’)] mod 11
 ```
+The structure of the data stored in the buckets of the hash chain is as follows:
+```c
+#define M 11 // Size of Hash table
+
+
+struct dateVolume // Data record stored in Hash table Bucket list
+{
+    char Date[11];
+    int Volume;
+};
+typedef struct dateVolume dataItem;
+```
+The structure of the buckets of the hash chain is as follows:
+```c
+struct listNode // Bucket list node
+{
+    dataItem data;
+    struct listNode *next;
+};
+typedef struct listNode lNode;
+
+lNode *hashTable[M] = {NULL}; // Hash table of M buckets initially empty
+```
  
 We should support the following:
 1. Search for the transaction volume based on the date provided by the user.
