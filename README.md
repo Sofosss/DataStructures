@@ -39,7 +39,7 @@ In [PROJECT_PART_I_4][project-part-I-4-link], the algorithms **Binary Interpolat
 # PART II: Binary Search Trees and Hashing
 ### ***Binary Search Tree implemented as AVL and RED-BLACK  based on the ``Date`` field***
 
-In [PROJECT_PART_II_A_AVL][project-part-I-A-AVL-link] | [PROJECT_PART_II_A_RB][project-part-I-A-RB-link], the Binary Search Tree (BST) is implemented as an AVL | RED-BLACK node-oriented tree. Each node of the tree maintains the Date and Volume fields of a stock record from the corresponding input file. 
+In [PROJECT_PART_II_A_AVL][project-part-II-A-AVL-link] | [PROJECT_PART_II_A_RB][project-part-II-A-RB-link], the Binary Search Tree (BST) is implemented as an AVL | RED-BLACK node-oriented tree. Each node of the tree maintains the Date and Volume fields of a stock record from the corresponding input file. 
  
  We should support the following: 
  1. Displaying the Binary Search Tree (BST) with an in-order traversal. Each representation should include a header with the titles of the elements of the records being depicted.
@@ -130,7 +130,7 @@ In the RED-BLACK tree implementation, the color of each node is printed.
 
 
 ### ***Binary Search Tree implemented as AVL and RED-BLACK  based on the ``Volume`` field***
-As in the previous case tree is constructed with the function **insertToBinTree()**. The insertion of duplicate records (data records with identical values in the ``Date`` and ``Volume`` fields) is not allowed. As mentioned earlier, since all values in the ``Date`` field are unique, there are no duplicate records (the precaution against inserting duplicates is taken for completeness reasons).
+As in the previous case, in [PROJECT_PART_II_B_AVL][project-part-II-B-AVL-link] | [PROJECT_PART_II_B_RB][project-part-II-B-RB-link] the tree is constructed with the function **insertToBinTree()**. The insertion of duplicate records (data records with identical values in the ``Date`` and ``Volume`` fields) is not allowed. As mentioned earlier, since all values in the ``Date`` field are unique, there are no duplicate records (the precaution against inserting duplicates is taken for completeness reasons).
 
  We should support the following: 
 1. Finding the day/days with the **MINIMUM trading volume**.
@@ -144,6 +144,32 @@ The requested operations are implemented through the following functions:
 ``btNode *maxValuebtNode(btNode *r)``: Returns a pointer to the node in the tree with the largest ``Volume`` value (rightmost node of the tree with only a left child or is a leaf) or NULL if the tree is empty.
 
 ``void reportBinTree(btNode *r, int x)``: Prints the ``Date`` values of data records that have a ``Volume`` value equal to x. [ ``reportBinTree()`` is quite general: it can easily be modified to print the ``Date`` values of data records with ``Volume`` values between x1 and x2, where x1 < x2. The time complexity for a tree with n data records is O(logn + k), where k is the size of the answer (the number of data records with ``Date`` values within the given range). ]
+
+### ***Hashing with Chains***
+Finally, in [PROJECT_PART_II_C][project-part-II-C-link],  we replace the Binary Search Tree (BST) based on the ``Date`` field using a Hashing structure with Chains. The hash function is computed as the modulus of the sum of ASCII codes of individual characters forming the ``DATE``, divided by an odd number m, which represents the number of buckets. For instance, with ```DATE = "2014-02-13"``` and ``m=11``, the formula is:
+
+```bash
+Hash("2014-02-13") = [ASCII(‘2’)+ ASCII(‘0’)+ ASCII(‘1’)+ ASCII(‘4’)+ ASCII(‘-’)+ ASCII(‘0’)+ ASCII(‘2’)+ ASCII(‘-’)+ ASCII(‘1’)+ ASCII(‘3’)] mod 11
+```
+ 
+We should support the following:
+1. Search for the transaction volume based on the date provided by the user.
+2. Modify the record entries based on the date provided by the user. The modification specifically concerns **ONLY** the transaction volume field.
+3. Delete a record from the hash table based on the date provided by the user.
+
+
+➖ The creation of the hash structure (buckets with linked lists) is done with the help of the function ``void insertToHashTable(dataItem x)``, which is called by ``readFileToHashTable()`` each time a data record is read. 
+
+➖ The insertion of duplicate records (data records with the same Date) is not allowed. As mentioned earlier, since all values in the ``Date`` field are unique, there are no duplicate records (the handling of not allowing duplicate records is here for completeness).
+
+The requested functionalities are implemented through the operations:
+
+```c
+lNode *searchHashTable(char x[11])
+void deleteFromHashTable(char x[11])
+```
+Before the user exits the program, we print the contents of the Hash Table using ``void displayHashTable()``.
+
 # Contact
 
 ### Authors:
@@ -160,5 +186,9 @@ Distributed under the [MIT] License. See `LICENSE.md` for more details.
 [project-part-I-2-link]: ./src/PartI/PROJECT_PART_I_2.cpp
 [project-part-I-3-link]: ./src/PartI/PROJECT_PART_I_3.cpp
 [project-part-I-4-link]: ./src/PartI/PROJECT_PART_I_4.cpp
-[project-part-I-A-AVL-link]: ./src/PartII/PROJECT_PART_II_Α_AVL.cpp
-[project-part-I-A-RB-link]: ./src/PartII/PROJECT_PART_II_Α_RB.cpp
+[project-part-II-A-AVL-link]: ./src/PartII/PROJECT_PART_II_Α_AVL.cpp
+[project-part-II-A-RB-link]: ./src/PartII/PROJECT_PART_II_Α_RB.cpp
+[project-part-II-B-AVL-link]: ./src/PartII/PROJECT_PART_II_B_AVL.cpp
+[project-part-II-B-RB-link]: ./src/PartII/PROJECT_PART_II_B_RB.cpp
+[project-part-II-C-link]: ./src/PartII/PROJECT_PART_II_C.cpp
+[MIT]: https://en.wikipedia.org/wiki/MIT_License
