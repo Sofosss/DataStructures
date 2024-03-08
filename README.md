@@ -104,7 +104,7 @@ The ``modifyBinTree()`` function has not been implemented separately.
 
 For each different structure (AVL, RED-BLACK), a set of auxiliary functions is used (e.g., ``rotateL()``, ``rotateR()``, ``btNodeHeight()``, ``btNodeBalance()``, ``uncle()``, ``sibling()``, ``swapColors()``, ``fixRedRed()``, ``fixDoubleBlack()``, etc.) to implement the basic operations.
 
-📌 The creation of the tree is done with the help of the corresponding function ``insertToBinaryTree(dataItem x)``, which is called by ``readFileToBinaryTree()`` every time a data record is read. In the case of the AVL tree, the function returns a pointer to a tree node, while in the case of the RED-BLACK tree, it does not return any value. The insertion of duplicate records (data records with the same value in the ``Date`` field) is not allowed. Practically, since all values in the Date field are unique, there are no duplicate records (the precaution against inserting duplicates is taken for completeness reasons).
+📌 The creation of the tree is done with the help of the corresponding function ``insertToBinaryTree(dataItem x)``, which is called by ``readFileToBinaryTree()`` every time a data record is read. In the case of the AVL tree, the function returns a pointer to a tree node, while in the case of the RED-BLACK tree, it does not return any value. The insertion of duplicate records (data records with the same value in the ``Date`` field) is not allowed. Practically, since all values in the ``Date`` field are unique, there are no duplicate records (the precaution against inserting duplicates is taken for completeness reasons).
 
 📌 The rebalancing of the subtree with the root being the node T1 is performed using the functions btNode ``*rotateL(btNode *T1)`` and btNode ``*rotateR(btNode *T1)``, which implement the single left and right rotations. Double rotation involves either a single left and a single right rotation or a single right and a single left rotation.
 
@@ -133,9 +133,17 @@ In the RED-BLACK tree implementation, the color of each node is printed.
 As in the previous case tree is constructed with the function **insertToBinTree()**. The insertion of duplicate records (data records with identical values in the ``Date`` and ``Volume`` fields) is not allowed. As mentioned earlier, since all values in the ``Date`` field are unique, there are no duplicate records (the precaution against inserting duplicates is taken for completeness reasons).
 
  We should support the following: 
-1. Finding the day/days with the MINIMUM trading volume.
-2. Finding the day/days with the MAXIMUM trading volume.
+1. Finding the day/days with the **MINIMUM trading volume**.
+2. Finding the day/days with the **MAXIMUM trading volume**.
 
+
+The requested operations are implemented through the following functions:
+
+``btNode *minValuebtNode(btNode *r)``: Returns a pointer to the node in the tree with the smallest ``Volume`` value (leftmost node of the tree with only a right child or is a leaf) or NULL if the tree is empty.
+
+``btNode *maxValuebtNode(btNode *r)``: Returns a pointer to the node in the tree with the largest ``Volume`` value (rightmost node of the tree with only a left child or is a leaf) or NULL if the tree is empty.
+
+``void reportBinTree(btNode *r, int x)``: Prints the ``Date`` values of data records that have a ``Volume`` value equal to x. [ ``reportBinTree()`` is quite general: it can easily be modified to print the ``Date`` values of data records with ``Volume`` values between x1 and x2, where x1 < x2. The time complexity for a tree with n data records is O(logn + k), where k is the size of the answer (the number of data records with ``Date`` values within the given range). ]
 # Contact
 
 ### Authors:
