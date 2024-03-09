@@ -10,6 +10,7 @@
 </h3>
 <br>
 
+[![License][license-badge]][license-link]
 
 # Table of Contents
 * [About the project](#about-the-project)
@@ -244,3 +245,5 @@ Distributed under the [MIT] License. See `LICENSE.md` for more details.
 [PartII-AB-RB]: ./src/PartII/PartII_ΑΒ_RB.cpp
 [PartII-ABC-AVL]: ./src/PartII/PartII_ABC_AVL.cpp
 [PartII-ABC-RB]: ./src/PartII/PartII_ABC_RB.cpp
+[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
+[license-link]: https://github.com/DmMeta/ChordSeek/blob/main/LICENSE
