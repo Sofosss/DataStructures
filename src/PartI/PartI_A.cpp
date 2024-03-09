@@ -14,9 +14,9 @@
 // Data record read from file
 struct dailyStockData 
 {
-	char Date[11];
-	float Open, High, Low, Close;
-	int Volume, OpenInt;
+    char Date[11];
+    float Open, High, Low, Close;
+    int Volume, OpenInt;
 };
 typedef struct dailyStockData dataItem;
 
@@ -227,28 +227,28 @@ void merge(dataItem arr[], int l, int m, int r)
 // Mergesort algorithm
 void mergeSort(dataItem arr[], int l, int r)
 {
-	if (l < r)
+    if (l < r)
     {
     	int m = (l+r-1)/2;
     	mergeSort (arr, l, m); // Call mergesort recursively for left subarray 
     	mergeSort(arr, m+1, r); // Call mergesort recursively for right subarray 
     	merge(arr, l, m, r); // Merge left and right subarrays
-	}
+    }
 }
 
 
 // Utility function to compare pairs (Open, Date)
 int cmpOpenDate(dataItem a, dataItem b)
 {
-	if (a.Open > b.Open)
-		return 1;
-	if (a.Open < b.Open)	
-	    return -1;
-  	if (strcmp(a.Date, b.Date) > 0)
-	    return 1; 
-	if (strcmp(a.Date, b.Date) < 0)
-		return -1;
-	return 0;	 
+    if (a.Open > b.Open)
+	return 1;
+    if (a.Open < b.Open)	
+	return -1;
+    if (strcmp(a.Date, b.Date) > 0)
+	return 1; 
+    if (strcmp(a.Date, b.Date) < 0)
+	return -1;
+    return 0;	 
 }
 
 
@@ -268,7 +268,7 @@ void quickSort(dataItem arr[], int l, int r)
 {
     if (l < r)
     {
-		int k = partition(arr, l, r);
+	int k = partition(arr, l, r);
         quickSort(arr, l, k-1);
         quickSort(arr, k+1, r);
     }
@@ -280,8 +280,8 @@ void randomizedQuickSort(dataItem arr[], int l, int r)
 {
     if (l < r)
     {
-		setPivotAtRandom(arr, l, r);
-		int k = partition(arr, l, r);
+	setPivotAtRandom(arr, l, r);
+	int k = partition(arr, l, r);
         randomizedQuickSort(arr, l, k-1);
         randomizedQuickSort(arr, k+1, r);
     }
@@ -291,10 +291,10 @@ void randomizedQuickSort(dataItem arr[], int l, int r)
 // Set pivot at random to an element of arr[l..r] and move it to position l; 
 void setPivotAtRandom(dataItem arr[], int l, int r)
 {
-	int j = rand()%(r-l+1)+l;
+    int j = rand()%(r-l+1)+l;
 	
-	if (l != j)
-	 	swap(&arr[l], &arr[j]);
+    if (l != j)
+	swap(&arr[l], &arr[j]);
 }
 
 
@@ -304,7 +304,7 @@ void medOfThreeQuickSort(dataItem arr[], int l, int r)
     if (l < r)
     {
         setPivotToMedOfThree(arr, l, r);
-		int k = partition(arr, l, r);
+	int k = partition(arr, l, r);
         medOfThreeQuickSort(arr, l, k-1);
         medOfThreeQuickSort(arr, k+1, r);
     }
@@ -314,18 +314,18 @@ void medOfThreeQuickSort(dataItem arr[], int l, int r)
 // Set pivot to median of arr[l], arr[(l+m)/2] and arr[r] and move it to position l; 
 void setPivotToMedOfThree(dataItem arr[], int l, int r)
 {
-	if (r - l >= 2)
-	{
-		comps +=3;
-		int m = (l+r)/2;
+    if (r - l >= 2)
+    {
+	comps +=3;
+	int m = (l+r)/2;
 		
-		if (cmpOpenDate(arr[l], arr[m]) < 0)
-		    swap(&arr[l], &arr[m]);
-		if (cmpOpenDate(arr[l], arr[r]) > 0)
-		    swap(&arr[l], &arr[r]);
-		if (cmpOpenDate(arr[l], arr[m]) < 0)
-		    swap(&arr[l], &arr[m]);
-	}
+	if (cmpOpenDate(arr[l], arr[m]) < 0)
+	    swap(&arr[l], &arr[m]);
+	if (cmpOpenDate(arr[l], arr[r]) > 0)
+	    swap(&arr[l], &arr[r]);
+	if (cmpOpenDate(arr[l], arr[m]) < 0)
+	    swap(&arr[l], &arr[m]);
+    }
 }
 
 
@@ -333,8 +333,8 @@ void setPivotToMedOfThree(dataItem arr[], int l, int r)
 // Return index j
 int partition(dataItem arr[], int l, int r)
 {
- 	int i, j;
- 	dataItem x;
+    int i, j;
+    dataItem x;
 
     // arr[l] is the pivot
     i = l;
@@ -342,7 +342,7 @@ int partition(dataItem arr[], int l, int r)
 
     while (i < j)
     {
-		do
+	do
         {
             i++;
             comps++;
@@ -359,7 +359,7 @@ int partition(dataItem arr[], int l, int r)
     }
 
     if (l != j)
-	  	swap(&arr[l], &arr[j]);
+	swap(&arr[l], &arr[j]);
 
     return j;
 }

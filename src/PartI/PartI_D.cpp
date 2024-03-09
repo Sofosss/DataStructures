@@ -15,9 +15,9 @@
 
 struct dailyStockData 
 {
-	char Date[11];
-	float Open, High, Low, Close;
-	int Volume, OpenInt;
+    char Date[11];
+    float Open, High, Low, Close;
+    int Volume, OpenInt;
 };
 typedef struct dailyStockData dataItem;
 
@@ -43,22 +43,22 @@ int main(int argc, char *argv[])
 {
     dataItem S[MAX_SIZE];
     if (argc >= 2)
-	{
-		if (strcmp(argv[1], "binInterpolationSearch") == 0)
-			searchAlgPtr = &binInterpolationSearch;
-		else if (strcmp(argv[1], "binInterpolationSearchImproved") == 0)
-			searchAlgPtr = &binInterpolationSearchImproved;
-		else
-		{
-			printf("Invalid algorithm specified. Please use 'binInterpolationSearch' or 'binInterpolationSearchImproved'.\n");
-			return 1;
-		}
-	}
-	else
-	{
-		printf("Please specify the sorting algorithm to use as a command line argument. Options: 'binInterpolationSearch', 'binInterpolationSearchImproved'.\n");
-		return 1;
-	}
+    {
+	if (strcmp(argv[1], "binInterpolationSearch") == 0)
+	    searchAlgPtr = &binInterpolationSearch;
+	else if (strcmp(argv[1], "binInterpolationSearchImproved") == 0)
+		searchAlgPtr = &binInterpolationSearchImproved;
+	     else
+	     {
+		 printf("Invalid algorithm specified. Please use 'binInterpolationSearch' or 'binInterpolationSearchImproved'.\n");
+		 return 1;
+	     }
+    }
+    else
+    {
+	printf("Please specify the sorting algorithm to use as a command line argument. Options: 'binInterpolationSearch', 'binInterpolationSearchImproved'.\n");
+	return 1;
+    }
 
     int N = readFile(S, argc, argv); // N is the number of daily transactions read from file
 
@@ -68,28 +68,28 @@ int main(int argc, char *argv[])
     printf("Give the date to search for (yyyy-mm-dd): ");
     scanf("%s", x);
 
-	typedef std :: chrono :: high_resolution_clock clock;
+    typedef std :: chrono :: high_resolution_clock clock;
     // Start measuring running time
     auto startTime = clock :: now(); 
 	
-	pos = (*searchAlgPtr)(S, 0, N-1, x);  
+    pos = (*searchAlgPtr)(S, 0, N-1, x);  
 	
-	// Stop measuring running time and calculate the elapsed time
+    // Stop measuring running time and calculate the elapsed time
     auto endTime = clock :: now();
     auto elapsedTime = std :: chrono :: duration_cast<std :: chrono :: nanoseconds>(endTime - startTime).count();
 	
-	if (searchAlgPtr == &binInterpolationSearch) 
-		printf("\n\n[BINARY INTERPOLATION SEARCH]\n");
-	if (searchAlgPtr == &binInterpolationSearchImproved)
-		printf("\n\n[BINARY INTERPOLATION SEARCH IMPROVED]\n");
+    if (searchAlgPtr == &binInterpolationSearch) 
+	printf("\n\n[BINARY INTERPOLATION SEARCH]\n");
+    if (searchAlgPtr == &binInterpolationSearchImproved)
+	printf("\n\n[BINARY INTERPOLATION SEARCH IMPROVED]\n");
 		
-	if (pos == -1)
+    if (pos == -1)
         printf("\nDate %s not found.\nNumber of steps: %d\n", x, steps);
     else
         printf("\nDate %s found at array position %d. Volume: %d\nNumber of steps: %d\n", x, pos, S[pos].Volume, steps);
     printf("Running time measured: %lg seconds\n", (double)elapsedTime * 1e-9);
     
-	return 0;
+    return 0;
 }
 
 
@@ -156,10 +156,10 @@ unsigned long val(char s[])
             d[k] = s[j];
             k++;
         }
-	}	
+    }	
     
     d[k] = '\0';
-	return (unsigned long)atoi(d);
+    return (unsigned long)atoi(d);
 }
 
 
@@ -185,40 +185,40 @@ int binInterpolationSearch(dataItem arr[], int l, int r, char x[])
     steps = 1;
 
     while (strcmp(arr[l].Date, x) < 0 && strcmp(arr[r].Date, x) >= 0)
-	{
+    {
         arrSize = r - l + 1;
         /* if (arrSize <= 5)
-            return linearSearch(arr, l, r, x); */
+               return linearSearch(arr, l, r, x); */
         
-		m = l + (r-l) * (val(x) - val(arr[l].Date)) / (val(arr[r].Date) - val(arr[l].Date));  // probe index
+	m = l + (r-l) * (val(x) - val(arr[l].Date)) / (val(arr[r].Date) - val(arr[l].Date));  // probe index
 
-		j = 1; // In each loop iteration j counts the sqrt(arrSize) size jumps
+	j = 1; // In each loop iteration j counts the sqrt(arrSize) size jumps
 
-		steps++;
-		if (strcmp(arr[m].Date, x) < 0)
-		{
+	steps++;
+	if (strcmp(arr[m].Date, x) < 0)
+	{
             while (strcmp(arr[min((int)(m + j * sqrt(arrSize)), r)].Date, x) < 0)
-			{
-				j++; steps++; 										
-	        }
+	    {
+		j++; steps++; 										
+	    }
             l = m + (j - 1) * sqrt(arrSize) + 1;
-			r = min(m + j * sqrt(arrSize), r);
+	    r = min(m + j * sqrt(arrSize), r);
                                 
         }
         else
-		{
+	{
             if (strcmp(arr[m].Date, x) > 0)
             {
-				while (strcmp(arr[max((int)(m - j * sqrt(arrSize)), l)].Date, x) > 0)
-				{
-					j++; steps++;             
+		while (strcmp(arr[max((int)(m - j * sqrt(arrSize)), l)].Date, x) > 0)
+		{
+		    j++; steps++;             
             	}
             	l = max(m - j * sqrt(arrSize), l); 		
-				r = m - (j - 1) * sqrt(arrSize) - 1;
+		r = m - (j - 1) * sqrt(arrSize) - 1;
             	                 
             }
             else
-			    l = m;
+		l = m;
         }
     }
 
@@ -234,7 +234,7 @@ int binarySearchOnJumps(dataItem arr[], int l, int r, int arrSize, char x[])
 {
     int m;
 
-	while (l + arrSize <= r)
+    while (l + arrSize <= r)
     {
         steps++;
         m = (l+r)/2; // probe index				
@@ -247,7 +247,7 @@ int binarySearchOnJumps(dataItem arr[], int l, int r, int arrSize, char x[])
                  r = m-1;
     }
 
-	return l;
+    return l;
 }
 
 
@@ -259,51 +259,50 @@ int binInterpolationSearchImproved(dataItem arr[], int l, int r, char x[])
     steps = 1;
 
     while (strcmp(arr[l].Date, x) < 0 && strcmp(arr[r].Date, x) >= 0)
-	{
+    {
         arrSize = r - l + 1;
         /* if (arrSize <= 5)
                return linearSearch(arr, l, r, x); */
 		
-		m = l + (r-l) * (val(x) - val(arr[l].Date)) / (val(arr[r].Date) - val(arr[l].Date)); // probe index
+	m = l + (r-l) * (val(x) - val(arr[l].Date)) / (val(arr[r].Date) - val(arr[l].Date)); // probe index
 
-		j = 0; //  In each loop iteration j counts the exponential size jumps
+	j = 0; //  In each loop iteration j counts the exponential size jumps
         
-		steps++;
-		if (strcmp(arr[m].Date, x) < 0)
-		{
+	steps++;
+	if (strcmp(arr[m].Date, x) < 0)
+	{
             while (strcmp(arr[min((int)(m + pow(2, j) * sqrt(arrSize)), r)].Date, x) < 0)
-			{
-				j++; steps++;                  		 
-	        }
+	    {
+		j++; steps++;                  		 
+	    }
             l = j > 0 ? m + pow(2, j - 1) * sqrt(arrSize) + 1 : m + 1;  
-			r = min(m + pow(2, j) * sqrt(arrSize), r);
+	    r = min(m + pow(2, j) * sqrt(arrSize), r);
 		            	
-
-			if (j > 1) // Call binary search for block sizes 2*sqrt(arrSize), 4*sqrt(arrSize), 8*sqrt(arrSize), ...
-			{
-		       l = binarySearchOnJumps(arr, l, r, (int)(sqrt(arrSize)), x);
-		       r = min(l + sqrt(arrSize), r);
-		    }
+	    if (j > 1) // Call binary search for block sizes 2*sqrt(arrSize), 4*sqrt(arrSize), 8*sqrt(arrSize), ...
+	    {
+		l = binarySearchOnJumps(arr, l, r, (int)(sqrt(arrSize)), x);
+		r = min(l + sqrt(arrSize), r);
+	    }
         }
         else
-		{
+	{
             if (strcmp(arr[m].Date, x) > 0)
             {
-				while (strcmp(arr[max((int)(m - pow(2, j) * sqrt(arrSize)), l)].Date, x) > 0)
-				{
-					j++; steps++;    			
+		while (strcmp(arr[max((int)(m - pow(2, j) * sqrt(arrSize)), l)].Date, x) > 0)
+		{
+		    j++; steps++;    			
             	}
             	l = max(m - pow(2, j) * sqrt(arrSize), l);
-				r = j > 0 ? r = m - pow(2, j - 1) * sqrt(arrSize) - 1 : m - 1;    	 
+		r = j > 0 ? r = m - pow(2, j - 1) * sqrt(arrSize) - 1 : m - 1;    	 
 
             	if (j > 1) // Call binarySearchOnJumps only if block size >= 2*sqrt(arrSize)
-				{
-		       		l = binarySearchOnJumps(arr, l, r, (int)(sqrt(arrSize)), x);
-		       		r = min(l + sqrt(arrSize), r);
-		    	}
+		{
+		    l = binarySearchOnJumps(arr, l, r, (int)(sqrt(arrSize)), x);
+		    r = min(l + sqrt(arrSize), r);
+		}
             }
             else
-			    l = m;
+		l = m;
         }
     }
 
@@ -317,15 +316,15 @@ int binInterpolationSearchImproved(dataItem arr[], int l, int r, char x[])
 // Linear search algorithm 
 int linearSearch(dataItem arr[], int l, int r, char x[])
 {
-	int i = l;
-	while (i <= r && strcmp(x, arr[i].Date) >= 0)
-	{
-		steps++;
-		if (strcmp(x, arr[i].Date) == 0)
-	        return i;
+    int i = l;
+    while (i <= r && strcmp(x, arr[i].Date) >= 0)
+    {
+	steps++;
+	if (strcmp(x, arr[i].Date) == 0)
+	    return i;
 	    i++;
-	}
-	return -1;
+    }
+    return -1;
 }
 
 

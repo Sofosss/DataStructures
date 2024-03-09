@@ -64,8 +64,8 @@ int cmpVolumeDate(dataItem a, dataItem b);
 int main(int argc, char *argv[])
 {
     openFile(argc, argv); // Open input data file before any other action
-	binaryTreeMenu();
-	return 0;  
+    binaryTreeMenu();
+    return 0;  
 }
 
 
@@ -75,11 +75,11 @@ void binaryTreeMenu()
     int selection;
 
     while (1)
-	{
+    {
         printf("1. Read file to a Binary Search Tree by Date");
         printf("\n2. Read file to a Binary Search Tree by Volume");
           
-		printf("\n\nEnter your choice (1 - 2): ");
+	printf("\n\nEnter your choice (1 - 2): ");
         scanf("%d",&selection);
 
         switch (selection)
@@ -104,7 +104,7 @@ void binaryTreeMenu()
 void binaryTreeByDateMenu()
 {
     cmpPtr = &cmpDate; // The key of each data record is the field Date 
-	readFileToBinTree();
+    readFileToBinTree();
 
     int selection;
     char x[11];
@@ -112,11 +112,11 @@ void binaryTreeByDateMenu()
     btNode *r;
 
     while (1)    
-  	{
+    {
         printf("\n\n1. Inorder traversal of BST");
         printf("\n2. Search volume for a given date");
         printf("\n3. Modify volume for a given date");
-		printf("\n4. Delete BST node of a given date");
+	printf("\n4. Delete BST node of a given date");
         printf("\n5. Exit\n");
 
         printf("\nEnter your choice (1 - 5): ");
@@ -130,7 +130,7 @@ void binaryTreeByDateMenu()
                     inorderBinTree(root);
 
                     printf("\n\n");system("pause");
-					printf("\n\n\nTree structure:\n");
+		    printf("\n\n\nTree structure:\n");
                     printf("---------------\n\n"); 
                     printBinTree(root, 1);
                     break;
@@ -140,31 +140,31 @@ void binaryTreeByDateMenu()
                     scanf("%s", x);
 
                     if (!root)
-						printf("\nTree is empty\n\n");
-					else
-					{
-						r = searchBinTree(root, x);
+			printf("\nTree is empty\n\n");
+		    else
+		    {
+			r = searchBinTree(root, x);
                         if (!r)
                             printf("\nThis date does not exist in the tree\n");
                         else
                             printf("\nVolume for the given date is: %d\n", r->data.Volume);
                     }
-					break;
+		    break;
 
             case 3 :
                     printf("\n\nGive the date (yyyy-mm-dd): ");
                     scanf("%s", x);
 
                     if (!root)
-						printf("\nTree is empty\n\n");
-					else
-					{	
-						r = searchBinTree(root, x);
+			printf("\nTree is empty\n\n");
+		    else
+		    {	
+			r = searchBinTree(root, x);
                         if (!r)
                             printf("\nThis date does not exist in the tree");
                         else
                         {
-							printf("\nCurrent record: %s | %d", r->data.Date, r->data.Volume);
+			    printf("\nCurrent record: %s | %d", r->data.Date, r->data.Volume);
                             printf("\n\nGive the new volume (>= 0): ");
                             scanf("%d", &r->data.Volume);
                             printf("\nVolume modified\n");
@@ -177,15 +177,15 @@ void binaryTreeByDateMenu()
                     scanf("%s", x);
 
                     if (!root)
-						printf("\nTree is empty\n\n");
-					else
-					{	
-						r = searchBinTree(root, x);
+			printf("\nTree is empty\n\n");
+		    else
+		    {	
+			r = searchBinTree(root, x);
                         if (!r)
                             printf("\nThis date does not exist in the tree");
                         else
                         {
-							root = deleteFromBinTree(root, x);
+			    root = deleteFromBinTree(root, x);
                             r->height = btNodeHeight(r);
                             printf("\n\nDate found and deleted\n");
                         }
@@ -207,27 +207,27 @@ void binaryTreeByDateMenu()
 void binaryTreeByVolumeMenu()
 {
     cmpPtr = &cmpVolumeDate; // The key of each data record is the pair (Volume, Date)
-	readFileToBinTree();
+    readFileToBinTree();
 
     int selection, v;
 
     while (1)
-	{
+    {
         printf("\n\n1. Find date(s) with MIN volume");
         printf("\n2. Find date(s) with MAX volume\n");
           
-		printf("\nEnter your choice (1 - 2): ");
+	printf("\nEnter your choice (1 - 2): ");
         scanf("%d",&selection);
 
         switch (selection)
         {
             case 1 :
                     /* // This code is used for verification: Display tree nodes info in inorder and the tree structure  
-					printf("\n\nDate         Volume\tColor\tBNodes\tTNodes\n");
+		    printf("\n\nDate         Volume\tColor\tBNodes\tTNodes\n");
                     printf("----------------------------------------------");
                     inorderBinTree(root);
                         
-					printf("\n\n\nTree structure:\n");
+		    printf("\n\n\nTree structure:\n");
                     printf("---------------\n\n"); 
                     printBinTree(root, 1); */
                         
@@ -236,7 +236,7 @@ void binaryTreeByVolumeMenu()
                     else
                     {
                         v = minValuebtNode(root)->data.Volume;
-						printf("\nDates with MIN volume: ");
+			printf("\nDates with MIN volume: ");
                         reportBinTree(root, v);
                         printf("\nMIN volume: %d\n", v);
                     }
@@ -248,7 +248,7 @@ void binaryTreeByVolumeMenu()
                     else
                     {
                         v = maxValuebtNode(root)->data.Volume;
-						printf("\nDates with MAX volume: ");
+			printf("\nDates with MAX volume: ");
                         reportBinTree(root, v);
                         printf("\nMAX volume: %d\n", v);
                     }
@@ -266,7 +266,7 @@ void binaryTreeByVolumeMenu()
 void openFile(int argc, char *argv[])
 {
     
-	char *fileName;
+    char *fileName;
     if (argc >= 2)  // Data filename passed as a command line argument
         fileName = strdup(argv[1]);
     else
@@ -296,14 +296,14 @@ void openFile(int argc, char *argv[])
 // Read the file and store data records to a binary tree implemented as an AVL tree 
 void readFileToBinTree()
 {
-	char line[80];  
+    char line[80];  
     dataItem dt;
     float a, b, c, d;
     int e;
 
     fgets(line, 80, fp); // Get the first line
 
-	while (fgets(line, 80, fp))
+                                  while (fgets(line, 80, fp))
     {
         sscanf(line, "%10s,%f,%f,%f,%f,%d,%d", dt.Date, &a, &b, &c, &d, &dt.Volume, &e);  // a, b, c, d and e are dummy variables
         root = insertToBinTree(root, dt);
@@ -349,11 +349,11 @@ btNode *searchBinTree(btNode *r, char x[11])
     if (!r)
         return NULL; // NULL tree
     else if (strcmp(x, r->data.Date) < 0) // If x is smaller than r's Date, then it lies in r's left subtree
-			 return (searchBinTree(r->left, x));
+	     return (searchBinTree(r->left, x));
          else if (strcmp(x, r->data.Date) > 0) // If x is greater than r's Date, then it lies in r's right subtree
-           		  return (searchBinTree(r->right, x));
+                  return (searchBinTree(r->right, x));
               else // If x is the same as r's Date, then search successful
-           		  return r;
+           	  return r;
 }
 
 
@@ -390,7 +390,7 @@ btNode *rotateL(btNode *T1)
     T1->height = btNodeHeight(T1);
     T2->height = btNodeHeight(T2);
     
-	// Return new root
+    // Return new root
     return T2;
 }
 
@@ -415,7 +415,7 @@ btNode *insertToBinTree(btNode *r, dataItem x)
         r->left = insertToBinTree(r->left, x); // Insert x to r's left subtree
    	else if (strcmp(x.Date, r->data.Date) > 0)
         	  r->right = insertToBinTree(r->right, x); // Insert x to r's right subtree
-         else
+             else
          	  return r; // Duplicates are not allowed in an AVL tree. Actually, as the Date value of each data record is unique, we have no duplicates 
 				 
     // 2. Update height of ancestor node r
@@ -432,7 +432,7 @@ btNode *insertToBinTree(btNode *r, dataItem x)
   
     // Right Left Case - Double rotation: Rotate right and then Rotate left
     if (balance < -1 && (*cmpPtr)(x, r->right->data) < 0)    
-	{
+    {
         r->right = rotateR(r->right);
         return rotateL(r);
     }
@@ -448,7 +448,7 @@ btNode *insertToBinTree(btNode *r, dataItem x)
     if (balance < -1 && (*cmpPtr)(x, r->right->data) > 0) 
         return rotateL(r);
 		
-	// Return the (unchanged) node pointer if node stays balanced  
+    // Return the (unchanged) node pointer if node stays balanced  
     return r;
 }
 
@@ -470,9 +470,9 @@ btNode *minValuebtNode(btNode *r)
 btNode *minValuebtNode(btNode *r)
 {
     if (r->left)
-   		return minValuebtNode(r->left);
+   	return minValuebtNode(r->left);
     else 
-	    return r;
+	return r;
 } */
 
 
@@ -493,9 +493,9 @@ btNode *maxValuebtNode(btNode *r)
 btNode *maxValuebtNode(btNode *r)
 {
     if (r->right)
-   		return maxValuebtNode(r->right);
+   	return maxValuebtNode(r->right);
     else 
-	    return r;
+	return r;
 } */
 
 
@@ -513,38 +513,38 @@ btNode *deleteFromBinTree(btNode *r, char x[])
   
         // If x is greater than r's Date, then it lies in r's right subtree
         else if (strcmp(x, r->data.Date) > 0)
-        	    r->right = deleteFromBinTree(r->right, x);
+        	 r->right = deleteFromBinTree(r->right, x);
   
-            // If x is the same as r's Date, then this is the node to be deleted
-    	    else
-    		{
-        	    // Node with only one son or a leaf
-        	    if(!r->left || !r->right)
-        	    {
-                    btNode *t = r->left ? r->left : r->right;
+             // If x is the same as r's Date, then this is the node to be deleted
+    	     else
+    	     {
+        	  // Node with only one son or a leaf
+        	  if(!r->left || !r->right)
+        	  {
+                       btNode *t = r->left ? r->left : r->right;
   
-                    // Leaf case
-            	    if (!t)
-            	    {
-                        t = r;
-                        r = NULL;
-                    }
-                    else // One son case
-                        *r = *t; // Copy the contents of the non-empty son
-            	    free(t);
-            	}
-                else
-        	   	{
-                    // Node with two sons: Get the inorder successor (node with minimum value in the right subtree)
-            	    btNode *t = minValuebtNode(r->right);
+                       // Leaf case
+            	       if (!t)
+            	       {
+                           t = r;
+                           r = NULL;
+                       }
+                       else // One son case
+                           *r = *t; // Copy the contents of the non-empty son
+            	       free(t);
+            	  }
+                  else
+        	  {
+                      // Node with two sons: Get the inorder successor (node with minimum value in the right subtree)
+            	      btNode *t = minValuebtNode(r->right);
   
-            	    // Copy the inorder successor's data to this node
-            	    r->data = t->data;
+            	      // Copy the inorder successor's data to this node
+            	      r->data = t->data;
   
-            	    // Delete the inorder successor
-            	    r->right = deleteFromBinTree(r->right, t->data.Date);
-                }
-            }
+            	      // Delete the inorder successor
+            	      r->right = deleteFromBinTree(r->right, t->data.Date);
+                  }
+             }
   
     // If the tree had only one node, return NULL
     if (!r)
@@ -580,7 +580,7 @@ btNode *deleteFromBinTree(btNode *r, char x[])
     if (balance < -1 && btNodeBalance(r->right) <= 0)
         return rotateL(r);
 		
-	// Return the (unchanged) node pointer if node stays balanced  
+    // Return the (unchanged) node pointer if node stays balanced  
 	return r;
 }
   
@@ -588,14 +588,14 @@ btNode *deleteFromBinTree(btNode *r, char x[])
 // Print tree structure 
 void printBinTree(btNode *r, int k)
 {
-	if (r)
-	{
-		printBinTree(r->right, k+1);
-		for (int i = 0; i < k; i++)
+    if (r)
+    {
+	printBinTree(r->right, k+1);
+	for (int i = 0; i < k; i++)
             printf("    ");
-		printf("%d (%d)\n", r->data.Volume, btNodeBalance(r));
-		printBinTree(r->left, k+1);
-	}
+	printf("%d (%d)\n", r->data.Volume, btNodeBalance(r));
+	printBinTree(r->left, k+1);
+    }
 }
 
 
@@ -611,9 +611,9 @@ int btNodeHeight(btNode *r)
 {
     if (!r)
         return -1;
-	if (r->left == r->right) // A leaf
-	    return 0;
-	if (r->left && !r->right) // r has only left son
+    if (r->left == r->right) // A leaf
+	return 0;
+    if (r->left && !r->right) // r has only left son
         return 1 + r->left->height; 
     if (!r->left && r->right) // r has only right son
         return 1 + r->right->height;
@@ -624,22 +624,22 @@ int btNodeHeight(btNode *r)
 // Utility function to compare Date fields
 int cmpDate(dataItem a, dataItem b)
 {
-	return strcmp(a.Date, b.Date);
+    return strcmp(a.Date, b.Date);
 } 
 
 
 // Utility function to compare pairs (Volume, Date)
 int cmpVolumeDate(dataItem a, dataItem b)
 {
-	if (a.Volume > b.Volume)
-		return 1;
-	if (a.Volume < b.Volume)	
-	    return -1;
-  	if (strcmp(a.Date, b.Date) > 0)
-	    return 1;
-	if (strcmp(a.Date, b.Date) < 0)
-		return -1;
-	return 0;	 
+    if (a.Volume > b.Volume)
+	return 1;
+    if (a.Volume < b.Volume)	
+	return -1;
+    if (strcmp(a.Date, b.Date) > 0)
+	return 1;
+    if (strcmp(a.Date, b.Date) < 0)
+	return -1;
+    return 0;	 
 } 
 
 
@@ -648,7 +648,7 @@ void reportBinTree(btNode *r, int x)
 {
     if (r)
     {
-	    if (r->data.Volume == x) // x can be stored in many tree nodes
+	if (r->data.Volume == x) // x can be stored in many tree nodes
         {
             printf("%s ", r->data.Date);
             reportBinTree(r->left, x);

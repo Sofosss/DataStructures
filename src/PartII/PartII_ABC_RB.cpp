@@ -124,22 +124,22 @@ void displayHashTable();
 int main(int argc, char *argv[])
 {
     openFile(argc, argv); // Open inputa data file before any other action
-	mainMenu();
-	return 0;  
+    mainMenu();
+    return 0;  
 }
 
 
 // Main user menu
 void mainMenu()
 {
-	int selection;
+    int selection;
 
     while (1)
-	{
+    {
         printf("1. Read file to a Binary Search Tree");
         printf("\n2. Read file to a Hash Table");
           
-		printf("\n\nEnter your choice (1 - 2): ");
+	printf("\n\nEnter your choice (1 - 2): ");
         scanf("%d",&selection);
 
         switch (selection)
@@ -173,11 +173,11 @@ void binaryTreeMenu()
     int selection;
 
     while (1)
-	{
+    {
         printf("\n\n1. Read file to a Binary Search Tree by Date");
         printf("\n2. Read file to a Binary Search Tree by Volume");
           
-		printf("\n\nEnter your choice (1 - 2): ");
+	printf("\n\nEnter your choice (1 - 2): ");
         scanf("%d",&selection);
 
         switch (selection)
@@ -203,7 +203,7 @@ void binaryTreeMenu()
 void binaryTreeByDateMenu()
 {
     cmpPtr = &cmpDate; // The key of each data record is the field Date
-	readFileToBinTree();
+    readFileToBinTree();
 
     int selection;
     char x[11];
@@ -211,7 +211,7 @@ void binaryTreeByDateMenu()
     btNode *r;
 
     while (1)
-	{
+    {
         printf("\n\n1. Inorder traversal of BST");
         printf("\n2. Search volume for a given date");
         printf("\n3. Modify volume for a given date");
@@ -229,7 +229,7 @@ void binaryTreeByDateMenu()
                     inorderBinTree(root);
 
                     printf("\n\n");system("pause");
-					printf("\n\n\nTree structure:\n");
+		    printf("\n\n\nTree structure:\n");
                     printf("---------------\n\n");
                     printBinTree(root, 1);
                     break;
@@ -240,38 +240,38 @@ void binaryTreeByDateMenu()
                     strcpy(d.Date, x);
 
                     if (!root)
-						printf("\nTree is empty\n\n");
-					else
-					{
-						r = searchBinTree(root, d);
+			printf("\nTree is empty\n\n");
+		    else
+		    {
+			r = searchBinTree(root, d);
                         if ((*cmpPtr)(d, r->data) != 0) 
-							printf("\nThis date does not exist in the tree\n");	 
-						else  
+			    printf("\nThis date does not exist in the tree\n");	 
+			else  
                             printf("\nVolume for the given date is: %d\n", r->data.Volume);
                     }
-					break;
+		    break;
 
                 case 3 :
                         printf("\n\nGive the date (yyyy-mm-dd): ");
                         scanf("%s", x);
-						strcpy(d.Date, x);
+			strcpy(d.Date, x);
 
                         if (!root)
-						    printf("\nTree is empty\n\n");
-						else
-						{
-							r = searchBinTree(root, d);
-							if ((*cmpPtr)(d, r->data) != 0) 
-								printf("\nThis date does not exist in the tree\n");	 
-							else
-                        	{       
-								printf("\nCurrent record: %s | %d", r->data.Date, r->data.Volume);
+			    printf("\nTree is empty\n\n");
+			else
+			{
+			    r = searchBinTree(root, d);
+			    if ((*cmpPtr)(d, r->data) != 0) 
+				printf("\nThis date does not exist in the tree\n");	 
+			    else
+                            {       
+				printf("\nCurrent record: %s | %d", r->data.Date, r->data.Volume);
                             	printf("\n\nGive the new volume (>= 0): ");
                             	scanf("%d", &r->data.Volume);
                             	printf("\nVolume modified\n");
-                        	}
+                            }
                         }
-						break;
+			break;
 
                 case 4 :
                         printf("\n\nGive the date (yyyy-mm-dd): ");
@@ -279,19 +279,19 @@ void binaryTreeByDateMenu()
                         strcpy(d.Date, x);
 
                         if (!root)
-						    printf("\nTree is empty\n\n");
-						else
-						{
-							r = searchBinTree(root, d);
-							if ((*cmpPtr)(d, r->data) != 0) 
-								printf("\nThis date does not exist in the tree\n");	 
-							 else
-							 {
-								deleteFromBinTree(r);
+			    printf("\nTree is empty\n\n");
+			else
+			{
+			    r = searchBinTree(root, d);
+			    if ((*cmpPtr)(d, r->data) != 0) 
+				printf("\nThis date does not exist in the tree\n");	 
+			    else
+			    {
+				deleteFromBinTree(r);
                             	printf("\n\nDate found and deleted\n");
-                        	 }
+                            }
                         }
-						break;
+			break;
                         
                 case 5 :        
                         return;
@@ -307,29 +307,29 @@ void binaryTreeByDateMenu()
 // Binary tree by Volume menu: Read file by Volume and display user menu
 void binaryTreeByVolumeMenu()
 {
-	cmpPtr = &cmpVolumeDate; // The key of each data record is the pair (Volume, Date) 
-	readFileToBinTree();
+    cmpPtr = &cmpVolumeDate; // The key of each data record is the pair (Volume, Date) 
+    readFileToBinTree();
 	
     int selection, v;
 
     while (1)
-	{
+    {
         printf("\n\n1. Find date(s) with MIN volume");
         printf("\n2. Find date(s) with MAX volume");
           
-		printf("\n\nEnter your choice (1 - 2): ");
+	printf("\n\nEnter your choice (1 - 2): ");
         scanf("%d",&selection);
 
         switch (selection)
         {
             case 1 :
                     /* // This code is used for verification: Display tree nodes info in inorder and the tree structure  
-					printf("\n\nDate         Volume\tColor\tBNodes\tTNodes\n");
+		    printf("\n\nDate         Volume\tColor\tBNodes\tTNodes\n");
                     printf("----------------------------------------------");
-                	inorderBinTree(root);
+                    inorderBinTree(root);
                         
-					printf("\n\n");system("pause");
-					printf("\n\n\nTree structure:\n");
+		    printf("\n\n");system("pause");
+		    printf("\n\n\nTree structure:\n");
                     printf("---------------\n\n");
                     printBinTree(root, 1); */
                         
@@ -338,7 +338,7 @@ void binaryTreeByVolumeMenu()
                     else
                     {
                         v = minValuebtNode(root)->data.Volume;
-						printf("\n\nDates with MIN volume: ");
+			printf("\n\nDates with MIN volume: ");
                         reportBinTree(root, v);
                         printf("\n\nMIN volume: %d\n", v);
                     }
@@ -350,7 +350,7 @@ void binaryTreeByVolumeMenu()
                     else
                     {
                         v = maxValuebtNode(root)->data.Volume;
-						printf("\nDates with MAX volume: ");
+			printf("\nDates with MAX volume: ");
                         reportBinTree(root, v);
                         printf("\nMAX volume: %d\n", v);
                     }
@@ -367,7 +367,7 @@ void binaryTreeByVolumeMenu()
 // Open the input data file
 void openFile(int argc, char *argv[])
 {
-	char *fileName;
+    char *fileName;
    
     if (argc >= 2)  // Data filename passed as a command line argument
         fileName = strdup(argv[1]);
@@ -399,17 +399,17 @@ void openFile(int argc, char *argv[])
 // Read the file and store data records to a binary tree implemented as a RED-BLACK tree 
 void readFileToBinTree()
 {
-	char line[80];  
+    char line[80];  
     dataItem dt;
     float a, b, c, d;
     int e;
 
     fgets(line, 80, fp); // Get the first line
 
-	while (fgets(line, 80, fp))
+    while (fgets(line, 80, fp))
     {
         sscanf(line, "%10s,%f,%f,%f,%f,%d,%d", dt.Date, &a, &b, &c, &d, &dt.Volume, &e);  // a, b, c, d and e are dummy variables
-		insertToBinTree(dt);
+	insertToBinTree(dt);
     }
 
     fclose(fp);
@@ -426,9 +426,9 @@ btNode *createbtNode(dataItem x)
         exit(1);
     }
     n->data = x;
-	n->left = n->right = n->parent = NULL;
+    n->left = n->right = n->parent = NULL;
      
-	// Node is created during insertion and its color is RED
+    // Node is created during insertion and its color is RED
     n->color = 'R';
 
     return n;
@@ -456,7 +456,7 @@ btNode *uncle(btNode *r)
 // Check if node r is left son of its parent
 int leftSon(btNode *r) 
 { 
-	return r == r->parent->left;    
+    return r == r->parent->left;    
 }
  
 
@@ -467,12 +467,12 @@ btNode *sibling(btNode *r)
     if (!r->parent)
         return NULL;
     
-	if (leftSon(r))
+    if (leftSon(r))
         // Sibling on the right
-		return r->parent->right;
- 	else
+	return r->parent->right;
+    else
     	// Sibling on the left 
-		return r->parent->left;
+	return r->parent->left;
 }
 
 
@@ -480,12 +480,12 @@ btNode *sibling(btNode *r)
 int hasRedSon(btNode *r) 
 {
     if (r->left && r->left->color == 'R')
-	    return 1;  
+        return 1;  
 	      
     if (r->right && r->right->color == 'R')
-	    return 1;  
+	return 1;  
 	
-	return 0;
+    return 0;
 }
 
 
@@ -501,21 +501,21 @@ void rotateR(btNode *T1)
  
     // Update root and parent nodes
     if (T1 == root)
-	{
+    {
         root = T2;
         root->parent = NULL;
     }
- 	else
- 	{
- 		T2->parent = T1->parent;
- 		if (leftSon(T1))
- 		    T2->parent->left = T2;
- 		else 
- 		    T2->parent->right = T2;
+    else
+    {
+ 	T2->parent = T1->parent;
+ 	if (leftSon(T1))
+ 	    T2->parent->left = T2;
+ 	else 
+ 	    T2->parent->right = T2;
     }
-	T1->parent = T2;
- 	if (T3)
-	    T3->parent = T1;
+    T1->parent = T2;
+    if (T3)
+	T3->parent = T1;
 }
  
 
@@ -530,22 +530,22 @@ void rotateL(btNode *T1)
     T1->right = T3;
  
     // Update root and parent nodes
-	if (T1 == root)
-	{
+    if (T1 == root)
+    {
         root = T2;
         root->parent = NULL;
     }
- 	else
- 	{
- 		T2->parent = T1->parent;
- 		if (leftSon(T1))
- 		    T2->parent->left = T2;
- 		else 
- 		    T2->parent->right = T2;
+    else
+    {
+ 	T2->parent = T1->parent;
+ 	if (leftSon(T1))
+ 	    T2->parent->left = T2;
+ 	else 
+ 	    T2->parent->right = T2;
     }
- 	T1->parent = T2;
- 	if (T3)
-	    T3->parent = T1;
+    T1->parent = T2;
+    if (T3)
+	T3->parent = T1;
 } 
 
 
@@ -554,7 +554,7 @@ void swapColors(btNode *n1, btNode *n2)
 {
     char t;
     
-	t = n1->color;
+    t = n1->color;
     n1->color = n2->color;
     n2->color = t;
 }
@@ -565,7 +565,7 @@ void swapDataValues(btNode *n1, btNode *n2)
 {
     dataItem t;
     
-	t = n1->data;
+    t = n1->data;
     n1->data = n2->data;
     n2->data = t;
 }
@@ -595,25 +595,25 @@ btNode *replacebtNode(btNode *r)
 btNode *searchBinTree(btNode *r, dataItem x) 
 {
     if ((*cmpPtr)(r->data, x) == 0) // The key of each data record is the Date field (Exercise II.A) or the pair (Volume, Date) (Exercise II.B) 
-		return r;
+	return r;
 	
-	if ((*cmpPtr)(r->data, x) > 0) 
-	{
+    if ((*cmpPtr)(r->data, x) > 0) 
+    {
         if (!r->left)
             return r;
         else 
-			return searchBinTree(r->left, x);
+	    return searchBinTree(r->left, x);
     } 
 	
-	if ((*cmpPtr)(r->data, x) < 0) 
+    if ((*cmpPtr)(r->data, x) < 0) 
     {
         if (!r->right)
             return r; 
         else
-        	return searchBinTree(r->right, x);
+            return searchBinTree(r->right, x);
     }
 
-	return nullptr;
+    return nullptr;
 }
  
 
@@ -622,26 +622,26 @@ void insertToBinTree(dataItem x)
 {
     btNode *newNode = createbtNode(x);
     
-	if (!root) 
-	{
+    if (!root) 
+    {
         // New root becomes BLACK
         newNode->color = 'B';
         root = newNode;
     } 
-	else 
-	{
+    else 
+    {
         btNode *t = searchBinTree(root, x);
  
         if ((*cmpPtr)(t->data, x) == 0) // The key of each data record is the Date field (Exercise II.A) or the pair (Volume, Date) (Exercise II.B) 
-        	return; // Duplicates are not allowed in a RED-BLACK tree. Actually, as the Date value of each data record is unique, we have no duplicates 
+            return; // Duplicates are not allowed in a RED-BLACK tree. Actually, as the Date value of each data record is unique, we have no duplicates 
  
       	// Connect new node to the right node
         newNode->parent = t;
  
         if ((*cmpPtr)(t->data, x) > 0) 
-        	t->left = newNode;
+            t->left = newNode;
       	else
-        	t->right = newNode;
+            t->right = newNode;
  
       	// Fix RED RED voilation if exists
       	fixRedRed(newNode);
@@ -656,51 +656,51 @@ void deleteFromBinTree(btNode *r)
     btNode *parent = r->parent;
  
     if (!p) 
-	{
+    {
         // p is NULL therefore r is a leaf
         if (r == root) // After deletion the tree becomes empty
-        	root = NULL;
+            root = NULL;
         else 
-		{
+	{
             if (r->color == 'B') 
-			  	// p and r are both BLACK (color of NULL is considered as BLACK), fix DOUBLE BLACK at r
-				fixDoubleBlack(r);
+		// p and r are both BLACK (color of NULL is considered as BLACK), fix DOUBLE BLACK at r
+		fixDoubleBlack(r);
         	
-			// Delete r from the tree
-        	if (leftSon(r))  
-          		parent->left = NULL;
-         	else  
-          		parent->right = NULL;
+	    // Delete r from the tree
+            if (leftSon(r))  
+          	parent->left = NULL;
+            else  
+          	parent->right = NULL;
         }
         free(r);
         return;
     }
  
     if (!r->left || !r->right) // r has only one son, p is the son of r and it is a RED leaf
+    {
+	if (r == root)  
 	{
-	    if (r == root)  
-	    {
-        	// r is the root, assign the data record of p to r and delete leaf p
-        	r->data = p->data;
-        	r->left = r->right = NULL;
-        	free(p);
+            // r is the root, assign the data record of p to r and delete leaf p
+            r->data = p->data;
+            r->left = r->right = NULL;
+            free(p);
         } 
-	    else 
-	    {
+        else 
+        {
             // Detach r from the tree and move p up
             if (leftSon(r)) 
-          		parent->left = p;
-          	else  
-          		parent->right = p;
+          	parent->left = p;
+            else  
+          	parent->right = p;
         	
-			free(r);
+	    free(r);
         	
-			p->parent = parent;
-        	// Color p BLACK
-			p->color = 'B';
+	    p->parent = parent;
+            // Color p BLACK
+	    p->color = 'B';
         }
     	return;
-	}
+    }
  
     // r has 2 sons, swap values with successor and recurse
     swapDataValues(p, r);
@@ -711,9 +711,9 @@ void deleteFromBinTree(btNode *r)
 // Fix RED RED violation at given node r
 void fixRedRed(btNode *r) 
 {
-	// 1. If r is the root, color it BLACK and return
+    // 1. If r is the root, color it BLACK and return
     if (r == root) 
-	{
+    {
         r->color = 'B';
         return;
     }
@@ -721,49 +721,51 @@ void fixRedRed(btNode *r)
     // Initialize parent, grandParent, uncle of r
     btNode *parent = r->parent, *grandParent = parent->parent, *un = uncle(r);
  
-	if (parent->color == 'R') 
-	{
+    if (parent->color == 'R') 
+    {
        	if (un && un->color == 'R')
-	    {
+	{
             // 2. Uncle RED, perform color flip and recurse for grandParent of r
             parent->color = 'B';
             un->color = 'B';
             grandParent->color = 'R';
             fixRedRed(grandParent);
         }     
-		else 
-		{          
+        else 
+	{          
             // 3. Uncle BLACK (color of NULL is considered as BLACK). There are 4 Cases for nodes r, parent and grandParent of r
             if (leftSon(parent)) 
-		    {
-				if (leftSon(r)) 
-                {	// Left Left Case - Swap colors and Rotate right  
-            		swapColors(parent, grandParent);
-					rotateR(grandParent);
-				}	
-          		else 
-		    	{
-               		// Left Right Case - Swap colors and Double rotate (Rotate left and then rotate right) 
-					swapColors(r, grandParent);
-					rotateL(parent);
-               		rotateR(grandParent);
+	    {
+		if (leftSon(r)) 
+                {	
+		    // Left Left Case - Swap colors and Rotate right  
+            	    swapColors(parent, grandParent);
+		    rotateR(grandParent);
+		}	
+          	else 
+		{
+               	    // Left Right Case - Swap colors and Double rotate (Rotate left and then rotate right) 
+		    swapColors(r, grandParent);
+		    rotateL(parent);
+               	    rotateR(grandParent);
             	}        		
-        	} 
-			else 
-			{
-				if (leftSon(r)) 
-				{
-              		// Right Left Case - Swap colors and Double rotate (Rotate right and then rotate left)
-               		swapColors(r, grandParent);
-					rotateR(parent);
-					rotateL(grandParent);
+            } 
+	    else 
+	    {
+		if (leftSon(r)) 
+		{
+              	    // Right Left Case - Swap colors and Double rotate (Rotate right and then rotate left)
+               	    swapColors(r, grandParent);
+		    rotateR(parent);
+		    rotateL(grandParent);
             	} 
-				else  
-               	{	// Right Right Case - Swap colors and Rotate left
-					swapColors(parent, grandParent);
-					rotateL(grandParent);
-			    }	
-			}        	
+		else  
+               	{	
+		    // Right Right Case - Swap colors and Rotate left
+		    swapColors(parent, grandParent);
+		    rotateL(grandParent);
+		}	
+	    }        	
         }
     }
 }
@@ -774,77 +776,77 @@ void fixDoubleBlack(btNode *r)
 {
     if (r == root)
         // Reached root
-       return;
+        return;
  
     btNode *sibl = sibling(r), *parent = r->parent;
     if (!sibl) 
       	// 1. No sibling, DOUBLE BLACK pushed up
       	fixDoubleBlack(parent);
- 	else
-	{
+    else
+    {
        	// 2. Sibling RED
-	   	if (sibl->color == 'R') // There are 2 Cases when sibling of r is RED
-	   	{
-          	// Swap colors and Rotate
-          	swapColors(sibl, parent);
-          	if (leftSon(sibl))  
+	if (sibl->color == 'R') // There are 2 Cases when sibling of r is RED
+	{
+            // Swap colors and Rotate
+            swapColors(sibl, parent);
+            if (leftSon(sibl))  
              	// left Case - Rotate right  
              	rotateR(parent);
-          	else  
+            else  
              	// Right Case - Rotate left 
              	rotateL(parent);
-          	fixDoubleBlack(r);
+            fixDoubleBlack(r);
        	} 
-	   	else 
-	   	{
-		  	// 3. Sibling BLACK with at least one RED son
-          	if (hasRedSon(sibl)) // There are 4 Cases when BLACK sibling has at least one RED son
-		  	{
-			  	if (sibl->left && sibl->left->color == 'R') 
+	else 
+	{
+	    // 3. Sibling BLACK with at least one RED son
+            if (hasRedSon(sibl)) // There are 4 Cases when BLACK sibling has at least one RED son
+	    {
+		if (sibl->left && sibl->left->color == 'R') 
               	{
-            	  	if (leftSon(sibl)) 
-				  	{
-              		  	// Left Left Case - Update colors and Rotate right
-              		  	sibl->left->color = sibl->color;
-              		  	sibl->color = parent->color;
-              	 	  	rotateR(parent);
-            	  	} 
-				  	else 
-				  	{
-              		  	// Right Left Case - Update color and Double rotate (Rotate right and then Rotate left)
-              		  	sibl->left->color = parent->color;
-              		  	rotateR(sibl);
-              		  	rotateL(parent);
-            	  	}
-              	} 
-		      	else 
-		      	{
-                  	if (leftSon(sibl)) 
-			      	{
-              		  	// Left Right Case - Update color and Double rotate (Rotate left and then Rotate right)
-              		  	sibl->right->color = parent->color;
-              		  	rotateL(sibl);
-              		  	rotateR(parent);
-                  	} 
-			      	else 
-			      	{
-              		  	// Right Right Case - Update colors and Left rotate 
-              		  	sibl->right->color = sibl->color;
-              		  	sibl->color = parent->color;
+            	    if (leftSon(sibl)) 
+		    {
+              		// Left Left Case - Update colors and Rotate right
+              		sibl->left->color = sibl->color;
+              		sibl->color = parent->color;
+              	 	rotateR(parent);
+            	    } 
+		    else 
+		    {
+              		// Right Left Case - Update color and Double rotate (Rotate right and then Rotate left)
+              		sibl->left->color = parent->color;
+              		rotateR(sibl);
+              		rotateL(parent);
+            	    }
+              	 } 
+		else 
+		{
+                    if (leftSon(sibl)) 
+		    {
+              		// Left Right Case - Update color and Double rotate (Rotate left and then Rotate right)
+              		sibl->right->color = parent->color;
+              		rotateL(sibl);
+              		rotateR(parent);
+                    } 
+		    else 
+		    {
+              		// Right Right Case - Update colors and Rotate left
+              		sibl->right->color = sibl->color;
+              		sibl->color = parent->color;
                       	rotateL(parent);
-                  	}
+                    }
               	}
               	parent->color = 'B';
-          	} 
-		  	else 
-		  	{ 
-             	// 4. BLACK sibling has two BLACK sons: Perform color flip and recurse for parent of r if it is BLACK
-             	sibl->color = 'R';
-             	if (parent->color == 'B')
-                 	fixDoubleBlack(parent);
-             	else
-                 	parent->color = 'B';
-          	}
+            } 
+	    else 
+	    { 
+                // 4. BLACK sibling has two BLACK sons: Perform color flip and recurse for parent of r if it is BLACK
+                sibl->color = 'R';
+                if (parent->color == 'B')
+                    fixDoubleBlack(parent);
+                else
+                    parent->color = 'B';
+            }
        	}
     }
 }
@@ -855,7 +857,7 @@ void reportBinTree(btNode *r, int x)
 {
     if (r)
     {
-	    if (r->data.Volume == x) // x can be stored in many tree nodes
+	if (r->data.Volume == x) // x can be stored in many tree nodes
         {
             printf("%s ", r->data.Date);
             reportBinTree(r->left, x);
@@ -886,9 +888,9 @@ btNode *minValuebtNode(btNode *r)
 btNode *minValuebtNode(btNode *r)
 {
     if (r->left)
-   		return minValuebtNode(r->left);
+   	return minValuebtNode(r->left);
     else 
-	    return r;
+	return r;
 } */
 
 
@@ -909,9 +911,9 @@ btNode *maxValuebtNode(btNode *r)
 btNode *maxValuebtNode(btNode *r)
 {
     if (r->right)
-   		return maxValuebtNode(r->right);
+   	return maxValuebtNode(r->right);
     else 
-	    return r;
+	return r;
 } */
 
 
@@ -930,67 +932,67 @@ void inorderBinTree(btNode *r)
 // Print tree node info
 void printbtNodeInfo(btNode *r)
 {
-	// If node r has one son or is a leaf, print also the number of BLACK nodes and the total number of nodes on the path from r to tree root
-	if ((r->left == r->right) || (r->left && !r->right) || (!r->left && r->right))
-	{
-		int blackNodes, totalNodes;
-		btPathNodes(r, &blackNodes, &totalNodes);
-		printf("\n%s   %d\t%c\t%d\t%d", r->data.Date, r->data.Volume, r->color, blackNodes, totalNodes);
-	}
-	else
-	    printf("\n%s   %d\t%c\t-\t-", r->data.Date, r->data.Volume, r->color);
+    // If node r has one son or is a leaf, print also the number of BLACK nodes and the total number of nodes on the path from r to tree root
+    if ((r->left == r->right) || (r->left && !r->right) || (!r->left && r->right))
+    {
+	int blackNodes, totalNodes;
+	btPathNodes(r, &blackNodes, &totalNodes);
+	printf("\n%s   %d\t%c\t%d\t%d", r->data.Date, r->data.Volume, r->color, blackNodes, totalNodes);
+    }
+    else
+	printf("\n%s   %d\t%c\t-\t-", r->data.Date, r->data.Volume, r->color);
 }
 
 
 // Compute the number of BLACK nodes / total nodes on the path from leaf r to tree root
 void btPathNodes(btNode *r, int *blackNodes, int *totalNodes)
 {
-	btNode *p = r;
-	*blackNodes = *totalNodes = 0;
+    btNode *p = r;
+    *blackNodes = *totalNodes = 0;
 	
-	while (p)
-	{
-		(*totalNodes)++;
-		if (p->color == 'B')
-		    (*blackNodes)++;
-		p = p->parent;
-	}
+    while (p)
+    {
+	(*totalNodes)++;
+	if (p->color == 'B')
+	    (*blackNodes)++;
+	p = p->parent;
+    }
 }
 
 
 // Print tree structure 
 void printBinTree(btNode *r, int k)
 {
-	if (r)
-	{
-		printBinTree(r->right, k+1);
-		for (int i = 0; i < k; i++)
+    if (r)
+    {
+	printBinTree(r->right, k+1);
+	for (int i = 0; i < k; i++)
             printf("      ");
-		printf("%d (%c)\n", r->data.Volume, r->color);
-		printBinTree(r->left, k+1);
-	}
+	printf("%d (%c)\n", r->data.Volume, r->color);
+	printBinTree(r->left, k+1);
+    }
 }
 
 
 // Utility function to compare Date fields
 int cmpDate(dataItem a, dataItem b)
 {
-	return strcmp(a.Date, b.Date);
+    return strcmp(a.Date, b.Date);
 } 
 
 
 // Utility function to compare pairs (Volume, Date)
 int cmpVolumeDate(dataItem a, dataItem b)
 {
-	if (a.Volume > b.Volume)
-		return 1;
-	if (a.Volume < b.Volume)	
-	    return -1;
-  	if (strcmp(a.Date, b.Date) > 0)
-	    return 1;
-	if (strcmp(a.Date, b.Date) < 0)
-		return -1;
-	return 0;	 
+    if (a.Volume > b.Volume)
+	return 1;
+    if (a.Volume < b.Volume)	
+	return -1;
+    if (strcmp(a.Date, b.Date) > 0)
+	return 1;
+    if (strcmp(a.Date, b.Date) < 0)
+	return -1;
+    return 0;	 
 } 
 
 
@@ -1009,7 +1011,7 @@ void hashingMenu()
     int selection;
     char x[11];
     lNode *n;
-	dataItem d;
+    dataItem d;
 
 
     while (1)
@@ -1019,7 +1021,7 @@ void hashingMenu()
         printf("\n3. Delete data record of a given date");
         printf("\n4. Display Hash table contents and Exit\n");
 		  
-		printf("\nEnter your choice (1 - 4): ");
+	printf("\nEnter your choice (1 - 4): ");
         scanf("%d",&selection);   
 
         switch (selection)
@@ -1044,8 +1046,8 @@ void hashingMenu()
                         printf("\nThis date does not exist in Hash table\n");
                     else
                     {
-						printf("\nCurrent record: %s | %d", n->data.Date, n->data.Volume);						
-						printf("\n\nGive the NEW volume (>= 0): ");
+			printf("\nCurrent record: %s | %d", n->data.Date, n->data.Volume);						
+			printf("\n\nGive the NEW volume (>= 0): ");
                         scanf("%d", &n->data.Volume);
                         printf("\nVolume modified\n");                           
                     }
@@ -1067,7 +1069,7 @@ void hashingMenu()
                         
             case 4 :
                     displayHashTable();
-					return;
+		    return;
                         
             default :
                     printf("\nWrong option, try again ...\n");
@@ -1080,18 +1082,18 @@ void hashingMenu()
 // Read the file and store data records to a Hash table with chained linked lists
 void readFileToHashTable()
 {
-	char line[80];  
+    char line[80];  
     lNode *n;
-	dataItem dt;
+    dataItem dt;
     float a, b, c, d;
     int e;
 
-	fgets(line, 80, fp); // Get the first line
+    fgets(line, 80, fp); // Get the first line
 
-	while (fgets(line, 80, fp))
+    while (fgets(line, 80, fp))
     {
         sscanf(line, "%10s,%f,%f,%f,%f,%d,%d", dt.Date, &a, &b, &c, &d, &dt.Volume, &e);  // a, b, c, d and e are dummy variables
-		insertToHashTable(dt);
+	insertToHashTable(dt);
     }
 
     fclose(fp);
@@ -1108,7 +1110,7 @@ lNode *createlNode(dataItem x)
         exit (1);
     }
     n->data = x;
-	n->next = NULL;
+    n->next = NULL;
 
     return n;
 }
@@ -1117,88 +1119,88 @@ lNode *createlNode(dataItem x)
 // Compute hash value 
 int hashValue(char s[11])
 {
-	int v = 0;
+    int v = 0;
 	
-	for (int i = 0; i < strlen(s); i++)
-		v = v + s[i];
+    for (int i = 0; i < strlen(s); i++)
+       v = v + s[i];
 	
-	return v%M;
+    return v%M;
 }
 
 
 // Insert a data record to Hash table  
 void insertToHashTable(dataItem x) 
 {
-	lNode *n = searchHashTable(x.Date);
+    lNode *n = searchHashTable(x.Date);
 	
-	if (!n) // Duplicates are not allowed in the Hash table. Actually, as the Date value of each data record is unique, we have no duplicates  
+    if (!n) // Duplicates are not allowed in the Hash table. Actually, as the Date value of each data record is unique, we have no duplicates  
+    {
+	int hashIndex = hashValue(x.Date);  // hashIndex is the bucket number
+	n = createlNode(x);
+	
+	// Add a new node to an empty bucket list  
+	if (!hashTable[hashIndex])
+	    hashTable[hashIndex] = n;
+	else
 	{
-		int hashIndex = hashValue(x.Date);  // hashIndex is the bucket number
-		n = createlNode(x);
-	
-		// Add a new node to an empty bucket list  
-		if (!hashTable[hashIndex])
-			hashTable[hashIndex] = n;
-		else
-		{
-			// Add a new node to bucket list  
-			n->next = hashTable[hashIndex];
-			// Update the head node of bucket list  
-			hashTable[hashIndex] = n;
-		}
+	    // Add a new node to bucket list  
+	    n->next = hashTable[hashIndex];
+	    // Update the head node of bucket list  
+	    hashTable[hashIndex] = n;
 	}
+    }
 }
 
 
 // Search the Hash table for a given date 
 lNode *searchHashTable(char x[11]) 
 {
-	int hashIndex = hashValue(x);
-	lNode *n;	    
+    int hashIndex = hashValue(x);
+    lNode *n;	    
 		
-	n = hashTable[hashIndex];
-	if (!n)
-	    return NULL; // Search unsuccessful
-	
-	while (n) 
-	{
-	    if (strcmp(n->data.Date, x) == 0) 
-			return n; // Search successful
-        else
-			n = n->next;
-	}
+    n = hashTable[hashIndex];
+    if (!n)
 	return NULL; // Search unsuccessful
+	
+    while (n) 
+    {
+	if (strcmp(n->data.Date, x) == 0) 
+	    return n; // Search successful
+        else
+	    n = n->next;
+    }
+    return NULL; // Search unsuccessful
 }
 
 
 // Delete an existing data record from Hash table
 void deleteFromHashTable(char x[11]) 
 {
-	// Locate the bucket using hash index  
-	int hashIndex = hashValue(x);
-	lNode *n, *p;
+    // Locate the bucket using hash index  
+    int hashIndex = hashValue(x);
+    lNode *n, *p;
 	
-	// Get the head node from current bucket list  
-	n = hashTable[hashIndex];
+    // Get the head node from current bucket list  
+    n = hashTable[hashIndex];
 
-	p = n; // n points to current list node and p to previous list node
-	while (n) 
+    p = n; // n points to current list node and p to previous list node
+    while (n) 
+    {
+	// Delete node with given date
+	if (strcmp(n->data.Date, x) == 0)
 	{
-		// Delete node with given date
-		if (strcmp(n->data.Date, x) == 0)
-		{
-			if (n == hashTable[hashIndex]) // Delete the head node from bucket list
-				hashTable[hashIndex] = n->next;
-			else
-				p->next = n->next;
-			free(n);
-			return;
-		}
-		else // ��ve to next list node
-		{
-			p = n;
-			n = n->next;
-		}
+	    if (n == hashTable[hashIndex]) // Delete the head node from bucket list
+		hashTable[hashIndex] = n->next;
+	    else
+		p->next = n->next;
+	    free(n);
+	    return;
+	}
+	else // Move to next list node
+	{
+	    p = n;
+	    n = n->next;
+	}
     }  
 }
 
@@ -1206,29 +1208,29 @@ void deleteFromHashTable(char x[11])
 // Display Hash table contents
 void displayHashTable()
 {
-	lNode *n;
+    lNode *n;
 	
-	printf("\n\nHash Table contents:\n");
-	printf("--------------------");
+    printf("\n\nHash Table contents:\n");
+    printf("--------------------");
 	
-	for (int i = 0; i < M; i++)
-	{
-		printf("\n\n...............\n");
-		printf("Bucket [%d]", i);	
-		n = hashTable[i];
+    for (int i = 0; i < M; i++)
+    {
+	printf("\n\n...............\n");
+	printf("Bucket [%d]", i);	
+	n = hashTable[i];
 		
-		if (!n)
-		    printf(" -|");
-		else
-		{
-			printf("  ->\t");
-			while (n)
-			{
-				printf("%s, %d | ", n->data.Date, n->data.Volume);
-				n = n->next;
-			}
+	if (!n)
+	    printf(" -|");
+	else
+	{
+	    printf("  ->\t");
+	    while (n)
+	    {
+		printf("%s, %d | ", n->data.Date, n->data.Volume);
+		n = n->next;
 	    }
 	}
-	printf("\n\n");
+    }
+    printf("\n\n");
 }
 

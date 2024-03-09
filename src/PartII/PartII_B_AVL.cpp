@@ -53,7 +53,7 @@ int cmpVolumeDate(dataItem a, dataItem b);
 int main(int argc, char *argv[])
 {
     binaryTreeByVolumeMenu(argc, argv);
-	return 0;  
+    return 0;  
 }
 
 
@@ -65,23 +65,23 @@ void binaryTreeByVolumeMenu(int argc, char *argv[])
     int selection, v;
 
     while (1)
-	{
+    {
         printf("1. Find date(s) with MIN volume");
         printf("\n2. Find date(s) with MAX volume\n");
           
-		printf("\nEnter your choice (1 - 2): ");
+	printf("\nEnter your choice (1 - 2): ");
         scanf("%d",&selection);
 
         switch (selection)
         {
             case 1 :
                     /* // This code is used for verification: Display tree nodes info in inorder and the tree structure  
-					printf("\n\nDate         Volume\tHeight\tBalance\n");
+		    printf("\n\nDate         Volume\tHeight\tBalance\n");
                     printf("---------------------------------------");
                     inorderBinTree(root);
                         
                     printf("\n\n");system("pause");
-					printf("\n\n\nTree structure:\n");
+		    printf("\n\n\nTree structure:\n");
                     printf("---------------\n\n"); 
                     printBinTree(root, 1);
                     printf("\n\n"); */
@@ -91,7 +91,7 @@ void binaryTreeByVolumeMenu(int argc, char *argv[])
                     else
                     {
                         v = minValuebtNode(root)->data.Volume;
-						printf("\nDates with MIN volume: ");
+			printf("\nDates with MIN volume: ");
                         reportBinTree(root, v);
                         printf("\nMIN volume: %d\n", v);
                 	}
@@ -103,7 +103,7 @@ void binaryTreeByVolumeMenu(int argc, char *argv[])
                     else
                     {
                         v = maxValuebtNode(root)->data.Volume;
-						printf("\nDates with MAX volume: ");
+			printf("\nDates with MAX volume: ");
                         reportBinTree(root, v);
                         printf("\nMAX volume: %d\n", v);
                     }
@@ -121,7 +121,7 @@ void binaryTreeByVolumeMenu(int argc, char *argv[])
 void readFileToBinTree(int argc, char *argv[])
 {
     FILE *fp;
-	char *fileName;
+    char *fileName;
     char line[80];  
     dataItem dt;
     float a, b, c, d;
@@ -152,9 +152,9 @@ void readFileToBinTree(int argc, char *argv[])
         exit(1);
     }
 
-	fgets(line, 80, fp); // Get the first line
+    fgets(line, 80, fp); // Get the first line
 
-	while (fgets(line, 80, fp))
+    while (fgets(line, 80, fp))
     {
         sscanf(line, "%10s,%f,%f,%f,%f,%d,%d", dt.Date, &a, &b, &c, &d, &dt.Volume, &e);  // a, b, c, d and e are dummy variables
         root = insertToBinTree(root, dt);
@@ -172,8 +172,8 @@ btNode *createbtNode(dataItem x)
      btNode *n = (btNode *) malloc(sizeof(btNode));
      if (!n)
      {
-          printf("\nERROR: Memory failure\n\n");
-          exit (1);
+         printf("\nERROR: Memory failure\n\n");
+         exit (1);
      }
      n->data = x;
 	 n->left = n->right = NULL;
@@ -228,7 +228,7 @@ btNode *rotateL(btNode *T1)
     T1->height = btNodeHeight(T1);
     T2->height = btNodeHeight(T2);
     
-	// Return new root
+    // Return new root
     return T2;
 }
  
@@ -252,9 +252,9 @@ btNode *insertToBinTree(btNode *r, dataItem x)
     if (cmpVolumeDate(x, r->data) < 0) // The key of each data record is the pair (Volume, Date)   
         r->left = insertToBinTree(r->left, x); // Insert x to r's left subtree
     else if (strcmp(x.Date, r->data.Date) > 0)
-        	  r->right = insertToBinTree(r->right, x); // Insert x to r's right subtree
+             r->right = insertToBinTree(r->right, x); // Insert x to r's right subtree
          else
-         	  return r; // Duplicates are not allowed in an AVL tree. Actually, as the Date value of each data record is unique, we have no duplicates  
+             return r; // Duplicates are not allowed in an AVL tree. Actually, as the Date value of each data record is unique, we have no duplicates  
 				 
     // 2. Update height of ancestor node r
     r->height = btNodeHeight(r);
@@ -286,7 +286,7 @@ btNode *insertToBinTree(btNode *r, dataItem x)
     if (balance < -1 && cmpVolumeDate(x, r->right->data) > 0) 
         return rotateL(r);
 		
-	// Return the (unchanged) node pointer if node stays balanced  
+    // Return the (unchanged) node pointer if node stays balanced  
     return r;
 }
 
@@ -296,7 +296,7 @@ void reportBinTree(btNode *r, int x)
 {
     if (r)
     {
-	    if (r->data.Volume == x) // x can be stored in many tree nodes
+	if (r->data.Volume == x) // x can be stored in many tree nodes
         {
             printf("%s ", r->data.Date);
             reportBinTree(r->left, x);
@@ -313,14 +313,14 @@ void reportBinTree(btNode *r, int x)
 // Print tree structure 
 void printBinTree(btNode *r, int k)
 {
-	if (r)
-	{
-		printBinTree(r->right, k+1);
-		for (int i = 0; i < k; i++)
+    if (r)
+    {
+	printBinTree(r->right, k+1);
+	for (int i = 0; i < k; i++)
             printf("    ");
-		printf("%d (%d)\n", r->data.Volume, btNodeBalance(r));
-		printBinTree(r->left, k+1);
-	}
+	printf("%d (%d)\n", r->data.Volume, btNodeBalance(r));
+	printBinTree(r->left, k+1);
+    }
 }
 
 
@@ -336,9 +336,9 @@ int btNodeHeight(btNode *r)
 {
     if (!r)
         return -1;
-	if (r->left == r->right) // A leaf
-	    return 0;
-	if (r->left && !r->right) // r has only left son
+    if (r->left == r->right) // A leaf
+	return 0;
+    if (r->left && !r->right) // r has only left son
         return 1 + r->left->height; 
     if (!r->left && r->right) // r has only right son
         return 1 + r->right->height;
@@ -363,9 +363,9 @@ btNode *minValuebtNode(btNode *r)
 btNode *minValuebtNode(btNode *r)
 {
     if (r->left)
-   		return minValuebtNode(r->left);
+   	return minValuebtNode(r->left);
     else 
-	    return r;
+	return r;
 } */
 
 
@@ -386,22 +386,22 @@ btNode *maxValuebtNode(btNode *r)
 btNode *maxValuebtNode(btNode *r)
 {
     if (r->right)
-   		return maxValuebtNode(r->right);
+   	return maxValuebtNode(r->right);
     else 
-	    return r;
+	return r;
 } */
 
 
 // Compare pairs (Date, Volume)
 int cmpVolumeDate(dataItem a, dataItem b)
 {
-	if (a.Volume > b.Volume)
-		return 1;
-	if (a.Volume < b.Volume)	
-	    return -1;
-  	if (strcmp(a.Date, b.Date) > 0) 
-	    return 1;
-	if (strcmp(a.Date, b.Date) < 0)	
-		return -1;
-	return 0;	 
+    if (a.Volume > b.Volume)
+	return 1;
+    if (a.Volume < b.Volume)	
+	return -1;
+    if (strcmp(a.Date, b.Date) > 0) 
+	return 1;
+    if (strcmp(a.Date, b.Date) < 0)	
+	return -1;
+    return 0;	 
 } 

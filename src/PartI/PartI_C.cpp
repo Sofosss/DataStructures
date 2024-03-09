@@ -14,9 +14,9 @@
 
 struct dailyStockData 
 {
-	char Date[11];
-	float Open, High, Low, Close;
-	int Volume, OpenInt;
+    char Date[11];
+    float Open, High, Low, Close;
+    int Volume, OpenInt;
 };
 typedef struct dailyStockData dataItem;
 
@@ -39,20 +39,20 @@ int main(int argc, char *argv[])
 
     if (argc >= 2)
 	{
-		if (strcmp(argv[1], "binarySearch") == 0)
-			searchAlgPtr = &binarySearch;
-		else if (strcmp(argv[1], "interpolationSearch") == 0)
-			searchAlgPtr = &interpolationSearch;
-		else
-		{
-			printf("Invalid algorithm specified. Please use 'binarySearch' or 'interpolationSearch'.\n");
-			return 1;
-		}
+	    if (strcmp(argv[1], "binarySearch") == 0)
+		searchAlgPtr = &binarySearch;
+	    else if (strcmp(argv[1], "interpolationSearch") == 0)
+		searchAlgPtr = &interpolationSearch;
+	    else
+	    {
+		printf("Invalid algorithm specified. Please use 'binarySearch' or 'interpolationSearch'.\n");
+		return 1;
+	    }
 	}
 	else
 	{
-		printf("Please specify the sorting algorithm to use as a command line argument. Options: 'binarySearch', 'interpolationSearch'.\n");
-		return 1;
+	    printf("Please specify the sorting algorithm to use as a command line argument. Options: 'binarySearch', 'interpolationSearch'.\n");
+	    return 1;
 	}
     
     int N = readFile(S, argc, argv); // N is the number of daily transactions read from file
@@ -63,28 +63,28 @@ int main(int argc, char *argv[])
     printf("Give the date to search for (yyyy-mm-dd): ");
     scanf("%s", x);
 
-	typedef std :: chrono :: high_resolution_clock clock;
+    typedef std :: chrono :: high_resolution_clock clock;
     // Start measuring running time
     auto startTime = clock :: now(); 
     
-	pos = (*searchAlgPtr)(S, 0, N-1, x);  
+    pos = (*searchAlgPtr)(S, 0, N-1, x);  
 	
-	/// Stop measuring running time and calculate the elapsed time
+    // Stop measuring running time and calculate the elapsed time
     auto endTime = clock :: now();
     auto elapsedTime = std :: chrono :: duration_cast<std :: chrono :: nanoseconds>(endTime - startTime).count();
 		
-	if (searchAlgPtr == &binarySearch) 
-		printf("\n\n[BINARY SEARCH]\n");
-	if (searchAlgPtr == &interpolationSearch)
-		printf("\n\n[INTERPOLATION SEARCH]\n");
+    if (searchAlgPtr == &binarySearch) 
+	printf("\n\n[BINARY SEARCH]\n");
+    if (searchAlgPtr == &interpolationSearch)
+	printf("\n\n[INTERPOLATION SEARCH]\n");
 
-	if (pos == -1)
+    if (pos == -1)
         printf("\nDate %s not found.\nNumber of steps: %d\n", x, steps);
     else
         printf("\nDate %s found at array position %d. Volume: %d\nNumber of steps: %d\n", x, pos, S[pos].Volume, steps);
     printf("Running time measured: %g seconds\n", (double)elapsedTime*1e-9);
 	
-	return 0;
+    return 0;
 }
 
 
@@ -176,10 +176,10 @@ unsigned long val(char s[])
             d[k] = s[j];
             k++;
         }
-	}	
+    }	
     
     d[k] = '\0';
-	return (unsigned long)atoi(d);
+    return (unsigned long)atoi(d);
 }
 
 

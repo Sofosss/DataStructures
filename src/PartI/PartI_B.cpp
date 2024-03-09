@@ -14,9 +14,9 @@
 // Data record read from file
 struct dailyStockData 
 {
-	char Date[11];
-	float Open, High, Low, Close;
-	int Volume, OpenInt;
+    char Date[11];
+    float Open, High, Low, Close;
+    int Volume, OpenInt;
 };
 typedef struct dailyStockData dataItem;
 
@@ -43,55 +43,55 @@ void printArray(dataItem arr[], int arrSize);
 
 int main(int argc, char *argv[])
 {
-	dataItem S[MAX_SIZE];
+    dataItem S[MAX_SIZE];
 
-	if (argc >= 2)
-	{
-		if (strcmp(argv[1], "heapSort") == 0)
-			sortAlgPtr = &heapSort;
-		else if (strcmp(argv[1], "countingSort") == 0)
-			sortAlgPtr = &countingSort;
-		else if (strcmp(argv[1], "countingSortExtended") == 0)
-			sortAlgPtr = &countingSortExtended;
-		else
-		{
-			printf("Invalid algorithm specified. Please use 'heapSort', 'countingSort', or 'countingSortExtended'.\n");
-			return 1;
-		}
-	}
-	else
-	{
-		printf("Please specify the sorting algorithm to use as a command line argument. Options: 'heapSort', 'countingSort', 'countingSortExtended'.\n");
-		return 1;
-	}
+    if (argc >= 2)
+    {
+	if (strcmp(argv[1], "heapSort") == 0)
+	    sortAlgPtr = &heapSort;
+	else if (strcmp(argv[1], "countingSort") == 0)
+	         sortAlgPtr = &countingSort;
+	     else if (strcmp(argv[1], "countingSortExtended") == 0)
+		      sortAlgPtr = &countingSortExtended;
+		  else
+		  {
+		      printf("Invalid algorithm specified. Please use 'heapSort', 'countingSort', or 'countingSortExtended'.\n");
+		      return 1;
+		  }
+    }
+    else
+    {
+	printf("Please specify the sorting algorithm to use as a command line argument. Options: 'heapSort', 'countingSort', 'countingSortExtended'.\n");
+	return 1;
+    }
 
     int N = readFile(S, argc, argv); // N is the number of daily transactions read from file
-	typedef std :: chrono :: high_resolution_clock clock;
+    typedef std :: chrono :: high_resolution_clock clock;
     // Start measuring running time
     auto startTime = clock :: now(); 
 	
-	(*sortAlgPtr)(S, N);  
+    (*sortAlgPtr)(S, N);  
 	
-	// Stop measuring running time and calculate the elapsed time
+    // Stop measuring running time and calculate the elapsed time
     auto endTime = clock :: now();
     auto elapsedTime = std :: chrono :: duration_cast<std :: chrono :: nanoseconds>(endTime - startTime).count();
 
-	if (sortAlgPtr == &heapSort) 
-		printf("[HEAPSORT] ");
-	else if (sortAlgPtr == &countingSort)
-		printf("[COUNTINGSORT] ");
-	else if (sortAlgPtr == &countingSortExtended) 
-		printf("[COUNTINGSORT EXTENDED] ");
+    if (sortAlgPtr == &heapSort) 
+        printf("[HEAPSORT] ");
+    else if (sortAlgPtr == &countingSort)
+	     printf("[COUNTINGSORT] ");
+         else if (sortAlgPtr == &countingSortExtended) 
+	          printf("[COUNTINGSORT EXTENDED] ");
 	
-	printf("SORTED ARRAY:\n\n");
-	printArray(S, N);
+    printf("SORTED ARRAY:\n\n");
+    printArray(S, N);
 	
-	if (sortAlgPtr == &heapSort)
-		printf("\n\nNumber of comparisons: %d\n", comps);
+    if (sortAlgPtr == &heapSort)
+        printf("\n\nNumber of comparisons: %d\n", comps);
 
-	printf("Running time measured: %lg seconds\n", (double)elapsedTime * 1e-9);
+    printf("Running time measured: %lg seconds\n", (double)elapsedTime * 1e-9);
 	
-	return 0;
+    return 0;
 }
 
 
@@ -150,9 +150,7 @@ void printArray(dataItem arr[], int arrSize)
     printf("Date       : \tOpen\tHigh  \tLow   \tClose \tVolume\n");
     printf("--------------------------------------------------------\n");
     for (int i = 0; i < arrSize; i++)
-    {
         printf("%s : \t%.3f\t%.3f\t%.3f\t%.3f\t%d\n", arr[i].Date,  arr[i].Open, arr[i].High, arr[i].Low, arr[i].Close, arr[i].Volume);
-    }
 }
 
 
@@ -178,59 +176,59 @@ void swap(dataItem *a, dataItem *b)
 // Heapsort algorithm 
 void heapSort(dataItem arr[], int arrSize)
 {
-	// Build the heap
-   	for (int i = arrSize/2; i > 0; i--)
+    // Build the heap
+    for (int i = arrSize/2; i > 0; i--)
      	shiftDown(arr, i, arrSize);
 
-	// Move the largest element from root to rightmost leaf of the bottom level and rebuild the heap
-	for (int i = arrSize; i > 1; i--)
-	{
- 	 	swap(&arr[i-1], &arr[0]);
+    // Move the largest element from root to rightmost leaf of the bottom level and rebuild the heap
+    for (int i = arrSize; i > 1; i--)
+    {
+ 	swap(&arr[i-1], &arr[0]);
       	shiftDown(arr, 1, i-1);
-	}
+    }
 }
 
 
 // Shift down the root element in order to satisfy the heap property
 void shiftDown(dataItem arr[], int root, int last)
 {
- 	 int j, k;
- 	 dataItem v;
+    int j, k;
+    dataItem v;
 
- 	 v = arr[root-1];
- 	 k = root;
+    v = arr[root-1];
+    k = root;
 
-     while (k <= last/2)
- 	 {
-         j = 2*k;
-         if (j < last)
-         {
-             comps++;
-             if (cmpCloseDate(arr[j], arr[j-1]) > 0)  
+    while (k <= last/2)
+    {
+        j = 2*k;
+        if (j < last)
+        {
+            comps++;
+            if (cmpCloseDate(arr[j], arr[j-1]) > 0)  
                 j++;
-         }
-         comps++;
-         if (cmpCloseDate(v, arr[j-1]) >= 0)  
-             break;
-         arr[k-1] = arr[j-1];
-         k = j;
-  	}
-  	arr[k-1] = v;
+        }
+        comps++;
+        if (cmpCloseDate(v, arr[j-1]) >= 0)  
+            break;
+        arr[k-1] = arr[j-1];
+        k = j;
+     }
+     arr[k-1] = v;
 }
 
 
 // Utility function to compare pairs (Close, Date)
 int cmpCloseDate(dataItem a, dataItem b)
 {
-	if (a.Close > b.Close)
-		return 1;
-	if (a.Close < b.Close)	
-	    return -1;
-  	if (strcmp(a.Date, b.Date) > 0)
-	    return 1;
-	if (strcmp(a.Date, b.Date) < 0)
-		return -1;
-	return 0;	 
+    if (a.Close > b.Close)
+	return 1;
+    if (a.Close < b.Close)	
+	return -1;
+    if (strcmp(a.Date, b.Date) > 0)
+	return 1;
+    if (strcmp(a.Date, b.Date) < 0)
+	return -1;
+    return 0;	 
 }
 
 
@@ -238,25 +236,25 @@ int cmpCloseDate(dataItem a, dataItem b)
 void countingSort(dataItem arr[], int arrSize)
 {
     int i, j, v, max, min;
-	max = arr[0].Close;
-	min = max;
+    max = arr[0].Close;
+    min = max;
 
     for (i = 1; i < arrSize; i++) // Compute max, min of the values (int) value of Close field  
     {
         v = arr[i].Close;		
-		if (v > max)
-        	max = v;
-		if (v < min)
-        	min = v;
+	if (v > max)
+        max = v;
+	if (v < min)
+        min = v;
     }
 
     // C[i] finally counts the int values smaller than or equal to i+min
-	int C[max-min+1] = {0}; // Initialize array C to 0
+    int C[max-min+1] = {0}; // Initialize array C to 0
 
     for (j = 0; j < arrSize; j++)
     {
     	v = arr[j].Close;
-		C[v-min]++;
+	C[v-min]++;
     }
 
     for (i = 1; i < max-min+1; i++)
@@ -266,13 +264,13 @@ void countingSort(dataItem arr[], int arrSize)
     for (j = arrSize-1; j >= 0; j--)
     {
     	v = arr[j].Close;
-		B[C[v-min]-1] = arr[j];
+	B[C[v-min]-1] = arr[j];
      	C[v-min]--;
 
     }
 
-  	for (i = 0; i < arrSize; i++)
-    	arr[i] = B[i];  // Move temp array B to array arr
+    for (i = 0; i < arrSize; i++)
+    arr[i] = B[i];  // Move temp array B to array arr
 }
 
 
@@ -281,19 +279,19 @@ void countingSortExtended(dataItem arr[], int arrSize)
 {
     int i, j, v, UpMax, UpMin;
 	
-	UpMax = 1000 * arr[0].Close;
-	UpMin = UpMax;
+    UpMax = 1000 * arr[0].Close;
+    UpMin = UpMax;
 
     for (i = 1; i < arrSize; i++) // Compute UpMax, UpMin of the values 1.000 * value of Close field  
     {
         v = 1000 * arr[i].Close;
-		if (v > UpMax)
-        	UpMax = v;
+	if (v > UpMax)
+            UpMax = v;
         if (v < UpMin)
-        	UpMin = v;
+            UpMin = v;
     }
 
-	// C[i] finally counts the number of int values smaller than or equal to i+UpMin 
+    // C[i] finally counts the number of int values smaller than or equal to i+UpMin 
     int C[UpMax-UpMin+1] = {0}; // Initialize C array to 0
 
     for (j = 0; j < arrSize; j++)
@@ -306,13 +304,13 @@ void countingSortExtended(dataItem arr[], int arrSize)
         C[i] = C[i] + C[i-1];
 
     dataItem B[arrSize];
-	for (j = arrSize-1; j >= 0; j--)
+    for (j = arrSize-1; j >= 0; j--)
     {
     	v = 1000 * arr[j].Close;
     	B[C[v-UpMin]-1] = arr[j];
      	C[v-UpMin]--;
-  	}
+    }
 
-  	for (i = 0; i < arrSize; i++)
+    for (i = 0; i < arrSize; i++)
         arr[i] = B[i];  // Move B to arr
 }

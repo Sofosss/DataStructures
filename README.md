@@ -6,10 +6,11 @@
 </h1>
 
 <h3 align="center">
-<i>A simple introductory project in the field of data structures. It includes the implementation of typical sorting and searching algorithms (along with some alternative versions and optimizations) (PART I), the development of BST trees (AVL and Red-Black) and the implementation of a Hashing structure using linked list chains (PART II).</i>
+<i>A simple introductory project in the field of data structures. It includes the implementation of typical sorting and searching algorithms (along with some alternative versions and optimizations) (PART I), the development of BST trees (AVL and Red-Black) and the implementation of a Hashing structure using chains with linked lists (PART II).</i>
 </h3>
 <br>
 
+[![License][license-badge]][license-link]
 
 # Table of Contents
 * [About the project](#about-the-project)
@@ -231,8 +232,8 @@ Distributed under the [MIT] License. See `LICENSE.md` for more details.
 [part-I-B-link]: ./src/PartI/PartI_B.cpp
 [part-I-C-link]: ./src/PartI/PartI_C.cpp
 [part-I-D-link]: ./src/PartI/PartI_D.cpp
-[part-II-A-AVL-link]: ./src/PartII/PartII_Α_AVL.cpp
-[part-II-A-RB-link]: ./src/PartII/PartII_Α_RB.cpp
+[part-II-A-AVL-link]: ./src/PartII/PartII_A_AVL.cpp
+[part-II-A-RB-link]: ./src/PartII/PartII_A_RB.cpp
 [part-II-B-AVL-link]: ./src/PartII/PartII_B_AVL.cpp
 [part-II-B-RB-link]: ./src/PartII/PartII_B_RB.cpp
 [part-II-C-link]: ./src/PartII/PartII_C.cpp
@@ -240,7 +241,9 @@ Distributed under the [MIT] License. See `LICENSE.md` for more details.
 [makefile1]: ./src/PartI/Makefile
 [makefile2]: ./src/PartII/Makefile
 [additional-files]: ./src/PartII/
-[PartII-AB-AVL]: ./src/PartII/PartII_ΑΒ_AVL.cpp
-[PartII-AB-RB]: ./src/PartII/PartII_ΑΒ_RB.cpp
+[PartII-AB-AVL]: ./src/PartII/PartII_AB_AVL.cpp
+[PartII-AB-RB]: ./src/PartII/PartII_AB_RB.cpp
 [PartII-ABC-AVL]: ./src/PartII/PartII_ABC_AVL.cpp
 [PartII-ABC-RB]: ./src/PartII/PartII_ABC_RB.cpp
+[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
+[license-link]: https://github.com/DmMeta/ChordSeek/blob/main/LICENSE
