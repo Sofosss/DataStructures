@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #define M 11  // Hash table size
 
@@ -351,23 +352,31 @@ void binaryTreeByVolumeMenu()
 // Open the input data file
 void openFile(int argc, char *argv[])
 {
-    char fileName[20]; // Input data file name
-	
-	if (argc >= 2) // Data filename passed as command line argument
-	    strcpy(fileName, argv[1]);
-	else
-	{
-		printf("Give the stock data filename: "); // Data filename asked by user
-        scanf("%s", fileName);  
+	char *fileName;
+    if (argc >= 2)  // Data filename passed as a command line argument
+        fileName = strdup(argv[1]);
+    else
+    {
+        printf("Give the stock data filename: "); // Data filename asked by user
+        scanf("%ms", &fileName);
         printf("\n\n");
     } 
 
-	fp = fopen(fileName, "r");
-	if (!fp)
-	{
-		printf( "ERROR: Can't open file\n");
-		exit (1);
-	}
+    // Check if the file exists
+    if (access(fileName, F_OK) == -1)
+    {
+        printf("\nERROR: File '%s' not found\n", fileName);
+        free(fileName);
+        exit(1);
+    }
+
+    fp = fopen(fileName, "r");
+    if (!fp) // fp == NULL
+    {
+        printf("\nERROR: can't open file\n");
+        free(fileName);
+        exit(1);
+    }
 }
 
 
@@ -938,7 +947,7 @@ void deleteFromHashTable(char x[11])
 			free(n);
 			return;
 		}
-		else // Ìïve to next list node
+		else // ï¿½ï¿½ve to next list node
 		{
 			p = n;
 			n = n->next;

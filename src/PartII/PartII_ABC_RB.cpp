@@ -1,15 +1,23 @@
-/****************************************************************************************
-* PART II.A+B: Binary Search Trees by Date and by Volume implemented as RED-BLACK trees *
-****************************************************************************************/
+/************************************************************************
+* PART II.D: Consolidation of Binary Search Tree and Hashing operations *
+************************************************************************/
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
+#define M 11  // Hash table size
+
+
+// Data structures 
 
 FILE *fp; // Pointer to data file
 
-struct dateVolume // Data record stored in binary tree node 
+
+// Binary search tree data structures
+
+struct dateVolume // Data record stored in binary tree node / bucket list node
 {  
     char Date[11];
     int Volume;
@@ -26,12 +34,34 @@ struct binaryTreeNode // Binary Search Tree node implemented as RED-BLACK tree n
 };
 typedef struct binaryTreeNode btNode;
 
-btNode *root = NULL; // Root of the tree initally empty
+btNode *root = NULL; // Root of the tree initially empty
 
 int (*cmpPtr)(dataItem, dataItem); // Pointer to compare functions
 
 
+// Hashing with chaind linked lists data structures 
+
+struct listNode // Bucket list node
+{
+    dataItem data;
+    struct listNode *next;
+};
+typedef struct listNode lNode;
+
+lNode *hashTable[M] = {NULL}; // Hash table of M buckets initially empty
+
+
+
+/*******************************************************************/
+
+
+
 // Declaration of functions
+
+void mainMenu();
+
+
+// Binary search tree functions
 
 void binaryTreeByDateMenu();
 void binaryTreeByVolumeMenu();
@@ -71,14 +101,71 @@ int cmpDate(dataItem a, dataItem b);
 int cmpVolumeDate(dataItem a, dataItem b);
 
 
+// Hashing with chained lists functions
+
+void hashingMenu();
+void readFileToHashTable();
+
+lNode *createlNode(dataItem x);
+int hashValue(char x[11]);
+
+void insertToHashTable(dataItem x);
+lNode *searchHashTable(char x[11]);
+void deleteFromHashTable(char x[11]);
+
+void displayHashTable();
+
+
+
+/*******************************************************************/
+
+
 
 int main(int argc, char *argv[])
 {
     openFile(argc, argv); // Open inputa data file before any other action
-	binaryTreeMenu();
+	mainMenu();
 	return 0;  
 }
 
+
+// Main user menu
+void mainMenu()
+{
+	int selection;
+
+    while (1)
+	{
+        printf("1. Read file to a Binary Search Tree");
+        printf("\n2. Read file to a Hash Table");
+          
+		printf("\n\nEnter your choice (1 - 2): ");
+        scanf("%d",&selection);
+
+        switch (selection)
+        {
+            case 1 :
+                    binaryTreeMenu();
+                    return;
+
+            case 2 :        
+                    hashingMenu();
+                    return;
+
+            default :        
+                    printf("\nWrong option, try again ...\n\n\n");
+                    break;
+        }
+    }
+}
+
+
+
+/*******************************************************************/
+
+
+
+// BINARY SEARCH TREE FUNCTIONS
 
 // Binary tree menu
 void binaryTreeMenu()
@@ -87,7 +174,7 @@ void binaryTreeMenu()
 
     while (1)
 	{
-        printf("1. Read file to a Binary Search Tree by Date");
+        printf("\n\n1. Read file to a Binary Search Tree by Date");
         printf("\n2. Read file to a Binary Search Tree by Volume");
           
 		printf("\n\nEnter your choice (1 - 2): ");
@@ -104,7 +191,7 @@ void binaryTreeMenu()
                     return;
 
             default :        
-                    printf("\nWrong option, try again ...\n\n\n");
+                    printf("\nWrong option, try again ...\n");
                     break;
         }
     }
@@ -164,54 +251,54 @@ void binaryTreeByDateMenu()
                     }
 					break;
 
-            case 3 :
-                    printf("\n\nGive the date (yyyy-mm-dd): ");
-                    scanf("%s", x);
-					strcpy(d.Date, x);
+                case 3 :
+                        printf("\n\nGive the date (yyyy-mm-dd): ");
+                        scanf("%s", x);
+						strcpy(d.Date, x);
 
-                    if (!root)
-						printf("\nTree is empty\n\n");
-					else
-					{
-						r = searchBinTree(root, d);
-						if ((*cmpPtr)(d, r->data) != 0) 
-							printf("\nThis date does not exist in the tree\n");	 
+                        if (!root)
+						    printf("\nTree is empty\n\n");
 						else
-                        {       
-							printf("\nCurrent record: %s | %d", r->data.Date, r->data.Volume);
-                            printf("\n\nGive the new volume (>= 0): ");
-                            scanf("%d", &r->data.Volume);
-                            printf("\nVolume modified\n");
+						{
+							r = searchBinTree(root, d);
+							if ((*cmpPtr)(d, r->data) != 0) 
+								printf("\nThis date does not exist in the tree\n");	 
+							else
+                        	{       
+								printf("\nCurrent record: %s | %d", r->data.Date, r->data.Volume);
+                            	printf("\n\nGive the new volume (>= 0): ");
+                            	scanf("%d", &r->data.Volume);
+                            	printf("\nVolume modified\n");
+                        	}
                         }
-                    }	
-                    break;
+						break;
 
-            case 4 :
-                    printf("\n\nGive the date (yyyy-mm-dd): ");
-                    scanf("%s", x);
-                    strcpy(d.Date, x);
+                case 4 :
+                        printf("\n\nGive the date (yyyy-mm-dd): ");
+                        scanf("%s", x);
+                        strcpy(d.Date, x);
 
-                    if (!root)
-						printf("\nTree is empty\n\n");
-					else
-					{
-						r = searchBinTree(root, d);
-						if ((*cmpPtr)(d, r->data) != 0) 
-							printf("\nThis date does not exist in the tree\n");	 
+                        if (!root)
+						    printf("\nTree is empty\n\n");
 						else
-                        {  
-							deleteFromBinTree(r);
-                            printf("\n\nDate found and deleted\n");
+						{
+							r = searchBinTree(root, d);
+							if ((*cmpPtr)(d, r->data) != 0) 
+								printf("\nThis date does not exist in the tree\n");	 
+							 else
+							 {
+								deleteFromBinTree(r);
+                            	printf("\n\nDate found and deleted\n");
+                        	 }
                         }
-                    }
-                    break;
+						break;
                         
-            case 5 :        
-                    return;
+                case 5 :        
+                        return;
                         
-            default :        
-                	printf("\nWrong option, try again ...\n");
-                    break;
+                default :        
+                        printf("\nWrong option, try again ...\n");
+                        break;
         }
     }
 }
@@ -280,23 +367,32 @@ void binaryTreeByVolumeMenu()
 // Open the input data file
 void openFile(int argc, char *argv[])
 {
-    char fileName[20]; // Input data file name
-	
-	if (argc >= 2) // Data filename passed as command line argument
-	    strcpy(fileName, argv[1]);
-	else
-	{
-		printf("Give the stock data filename: "); // Data filename asked by user
-        scanf("%s", fileName);  
+	char *fileName;
+   
+    if (argc >= 2)  // Data filename passed as a command line argument
+        fileName = strdup(argv[1]);
+    else
+    {
+        printf("Give the stock data filename: "); // Data filename asked by user
+        scanf("%ms", &fileName);
         printf("\n\n");
     } 
 
-	fp = fopen(fileName, "r");
-	if (!fp)
-	{
-		printf( "ERROR: Can't open file\n");
-		exit (1);
-	}
+    // Check if the file exists
+    if (access(fileName, F_OK) == -1)
+    {
+        printf("\nERROR: File '%s' not found\n", fileName);
+        free(fileName);
+        exit(1);
+    }
+
+    fp = fopen(fileName, "r");
+    if (!fp) // fp == NULL
+    {
+        printf("\nERROR: can't open file\n");
+        free(fileName);
+        exit(1);
+    }
 }
 
 
@@ -343,7 +439,9 @@ btNode *createbtNode(dataItem x)
 btNode *uncle(btNode *r) 
 {
     // If there is no parent or grandParent, then return NULL
-    if (!r->parent || !r->parent->parent)
+    if (!r->parent)
+        return NULL;
+    if (!r->parent->parent)
         return NULL;
  
     if (leftSon(r->parent))
@@ -368,11 +466,11 @@ btNode *sibling(btNode *r)
     // If r has no parent then sibling = NULL 
     if (!r->parent)
         return NULL;
- 
+    
 	if (leftSon(r))
         // Sibling on the right
 		return r->parent->right;
- 	else	
+ 	else
     	// Sibling on the left 
 		return r->parent->left;
 }
@@ -477,10 +575,10 @@ void swapDataValues(btNode *n1, btNode *n2)
 btNode *replacebtNode(btNode *r) 
 {
     // Node with two sons: Return the inorder successor (node with minimum value in the right subtree)
-    if (r->left && r->right)  
+    if (r->left && r->right)
         return minValuebtNode(r->right);
  
-    // Leaf case
+    // Leaf case  
     if (!r->left && !r->right)
         return NULL;
  
@@ -514,8 +612,10 @@ btNode *searchBinTree(btNode *r, dataItem x)
         else
         	return searchBinTree(r->right, x);
     }
-}
 
+	return nullptr;
+}
+ 
 
 // Insert a data record x in the tree 
 void insertToBinTree(dataItem x) 
@@ -532,7 +632,7 @@ void insertToBinTree(dataItem x)
 	{
         btNode *t = searchBinTree(root, x);
  
-        if ((*cmpPtr)(t->data, x) == 0) // The key of each data record is the Date field (Exercise II.A) or the pair (Volume, Date) (Exercise II.B)  
+        if ((*cmpPtr)(t->data, x) == 0) // The key of each data record is the Date field (Exercise II.A) or the pair (Volume, Date) (Exercise II.B) 
         	return; // Duplicates are not allowed in a RED-BLACK tree. Actually, as the Date value of each data record is unique, we have no duplicates 
  
       	// Connect new node to the right node
@@ -543,7 +643,7 @@ void insertToBinTree(dataItem x)
       	else
         	t->right = newNode;
  
-      	// Fix RED RED violation if exists
+      	// Fix RED RED voilation if exists
       	fixRedRed(newNode);
     }
 }
@@ -673,7 +773,7 @@ void fixRedRed(btNode *r)
 void fixDoubleBlack(btNode *r) 
 {
     if (r == root)
-       // Reached root
+        // Reached root
        return;
  
     btNode *sibl = sibling(r), *parent = r->parent;
@@ -694,9 +794,9 @@ void fixDoubleBlack(btNode *r)
              	// Right Case - Rotate left 
              	rotateL(parent);
           	fixDoubleBlack(r);
-        } 
-	    else 
-	    {
+       	} 
+	   	else 
+	   	{
 		  	// 3. Sibling BLACK with at least one RED son
           	if (hasRedSon(sibl)) // There are 4 Cases when BLACK sibling has at least one RED son
 		  	{
@@ -704,14 +804,14 @@ void fixDoubleBlack(btNode *r)
               	{
             	  	if (leftSon(sibl)) 
 				  	{
-              		  	// Left Left Case - Update colors and Right rotate
+              		  	// Left Left Case - Update colors and Rotate right
               		  	sibl->left->color = sibl->color;
               		  	sibl->color = parent->color;
               	 	  	rotateR(parent);
-            	    } 
+            	  	} 
 				  	else 
 				  	{
-              		    // Right Left Case - Update color and Double rotate (Rotate right and then Rotate left)
+              		  	// Right Left Case - Update color and Double rotate (Rotate right and then Rotate left)
               		  	sibl->left->color = parent->color;
               		  	rotateR(sibl);
               		  	rotateL(parent);
@@ -742,7 +842,7 @@ void fixDoubleBlack(btNode *r)
              	sibl->color = 'R';
              	if (parent->color == 'B')
                  	fixDoubleBlack(parent);
-            	else
+             	else
                  	parent->color = 'B';
           	}
        	}
@@ -754,8 +854,8 @@ void fixDoubleBlack(btNode *r)
 void reportBinTree(btNode *r, int x) 
 {
     if (r)
-	{
-		if (r->data.Volume == x)
+    {
+	    if (r->data.Volume == x) // x can be stored in many tree nodes
         {
             printf("%s ", r->data.Date);
             reportBinTree(r->left, x);
@@ -765,7 +865,7 @@ void reportBinTree(btNode *r, int x)
                  reportBinTree(r->left, x);
              else
                  reportBinTree(r->right, x);
-	}	
+    }  
 }
 
 
@@ -842,7 +942,7 @@ void printbtNodeInfo(btNode *r)
 }
 
 
-// Compute the number of BLACK nodes / total nodes on the path from node r to tree root
+// Compute the number of BLACK nodes / total nodes on the path from leaf r to tree root
 void btPathNodes(btNode *r, int *blackNodes, int *totalNodes)
 {
 	btNode *p = r;
@@ -894,4 +994,241 @@ int cmpVolumeDate(dataItem a, dataItem b)
 } 
 
 
+
+/*******************************************************************/
+
+
+
+// HASHING WITH CHAINED LISTS FUNCTIONS 
+
+// Hashing menu: Read file to a hash table and display user menu
+void hashingMenu()
+{
+    readFileToHashTable();
+
+    int selection;
+    char x[11];
+    lNode *n;
+	dataItem d;
+
+
+    while (1)
+    {
+        printf("\n\n1. Search volume for a given date");
+        printf("\n2. Modify volume for a given date");
+        printf("\n3. Delete data record of a given date");
+        printf("\n4. Display Hash table contents and Exit\n");
+		  
+		printf("\nEnter your choice (1 - 4): ");
+        scanf("%d",&selection);   
+
+        switch (selection)
+        {
+            case 1 :
+                    printf("\n\nGive the date (yyyy-mm-dd): ");
+                    scanf("%s", x);
+
+                    n = searchHashTable(x);
+                    if (!n)
+                        printf("\nThis date does not exist in Hash table\n");
+                    else
+                        printf("\nVolume for the given date is: %d\n", n->data.Volume);
+                    break;
+
+            case 2 :
+                    printf("\n\nGive the date (yyyy-mm-dd): ");
+                    scanf("%s", x);
+
+                    n = searchHashTable(x);
+                    if (!n)
+                        printf("\nThis date does not exist in Hash table\n");
+                    else
+                    {
+						printf("\nCurrent record: %s | %d", n->data.Date, n->data.Volume);						
+						printf("\n\nGive the NEW volume (>= 0): ");
+                        scanf("%d", &n->data.Volume);
+                        printf("\nVolume modified\n");                           
+                    }
+                    break;
+
+            case 3 :
+                    printf("\n\nGive the date (yyyy-mm-dd): ");
+                    scanf("%s", x);
+
+                    n = searchHashTable(x);
+                    if (!n)
+                        printf("\nThis date does not exist in Hash table\n");
+                    else
+                    {
+                        deleteFromHashTable(x);
+                        printf("\nDate found and deleted\n");
+                    }
+                    break;
+                        
+            case 4 :
+                    displayHashTable();
+					return;
+                        
+            default :
+                    printf("\nWrong option, try again ...\n");
+                    break;
+        }
+    } 
+}
+
+
+// Read the file and store data records to a Hash table with chained linked lists
+void readFileToHashTable()
+{
+	char line[80];  
+    lNode *n;
+	dataItem dt;
+    float a, b, c, d;
+    int e;
+
+	fgets(line, 80, fp); // Get the first line
+
+	while (fgets(line, 80, fp))
+    {
+        sscanf(line, "%10s,%f,%f,%f,%f,%d,%d", dt.Date, &a, &b, &c, &d, &dt.Volume, &e);  // a, b, c, d and e are dummy variables
+		insertToHashTable(dt);
+    }
+
+    fclose(fp);
+}
+	
+
+// Allocate memory to a new list node 	
+lNode *createlNode(dataItem x) 
+{
+    lNode *n = (lNode *) malloc(sizeof(lNode));
+    if (!n)
+    {
+        printf("\nERROR: Memory failure\n\n");
+        exit (1);
+    }
+    n->data = x;
+	n->next = NULL;
+
+    return n;
+}
+
+
+// Compute hash value 
+int hashValue(char s[11])
+{
+	int v = 0;
+	
+	for (int i = 0; i < strlen(s); i++)
+		v = v + s[i];
+	
+	return v%M;
+}
+
+
+// Insert a data record to Hash table  
+void insertToHashTable(dataItem x) 
+{
+	lNode *n = searchHashTable(x.Date);
+	
+	if (!n) // Duplicates are not allowed in the Hash table. Actually, as the Date value of each data record is unique, we have no duplicates  
+	{
+		int hashIndex = hashValue(x.Date);  // hashIndex is the bucket number
+		n = createlNode(x);
+	
+		// Add a new node to an empty bucket list  
+		if (!hashTable[hashIndex])
+			hashTable[hashIndex] = n;
+		else
+		{
+			// Add a new node to bucket list  
+			n->next = hashTable[hashIndex];
+			// Update the head node of bucket list  
+			hashTable[hashIndex] = n;
+		}
+	}
+}
+
+
+// Search the Hash table for a given date 
+lNode *searchHashTable(char x[11]) 
+{
+	int hashIndex = hashValue(x);
+	lNode *n;	    
+		
+	n = hashTable[hashIndex];
+	if (!n)
+	    return NULL; // Search unsuccessful
+	
+	while (n) 
+	{
+	    if (strcmp(n->data.Date, x) == 0) 
+			return n; // Search successful
+        else
+			n = n->next;
+	}
+	return NULL; // Search unsuccessful
+}
+
+
+// Delete an existing data record from Hash table
+void deleteFromHashTable(char x[11]) 
+{
+	// Locate the bucket using hash index  
+	int hashIndex = hashValue(x);
+	lNode *n, *p;
+	
+	// Get the head node from current bucket list  
+	n = hashTable[hashIndex];
+
+	p = n; // n points to current list node and p to previous list node
+	while (n) 
+	{
+		// Delete node with given date
+		if (strcmp(n->data.Date, x) == 0)
+		{
+			if (n == hashTable[hashIndex]) // Delete the head node from bucket list
+				hashTable[hashIndex] = n->next;
+			else
+				p->next = n->next;
+			free(n);
+			return;
+		}
+		else // ��ve to next list node
+		{
+			p = n;
+			n = n->next;
+		}
+    }  
+}
+
+
+// Display Hash table contents
+void displayHashTable()
+{
+	lNode *n;
+	
+	printf("\n\nHash Table contents:\n");
+	printf("--------------------");
+	
+	for (int i = 0; i < M; i++)
+	{
+		printf("\n\n...............\n");
+		printf("Bucket [%d]", i);	
+		n = hashTable[i];
+		
+		if (!n)
+		    printf(" -|");
+		else
+		{
+			printf("  ->\t");
+			while (n)
+			{
+				printf("%s, %d | ", n->data.Date, n->data.Volume);
+				n = n->next;
+			}
+	    }
+	}
+	printf("\n\n");
+}
 
