@@ -6,7 +6,7 @@
 </h1>
 
 <h3 align="center">
-<i>A simple introductory project in the field of data structures. It includes the implementation of typical sorting and searching algorithms (along with some alternative versions and optimizations) (PART I), the development of BST trees (AVL and Red-Black) and the implementation of a Hashing structure using linked list chains (PART II).</i>
+<i>A simple introductory project in the field of data structures. It includes the implementation of typical sorting and searching algorithms (along with some alternative versions and optimizations) (PART I), the development of BST trees (AVL and Red-Black) and the implementation of a Hashing structure using chains with linked lists (PART II).</i>
 </h3>
 <br>
 
