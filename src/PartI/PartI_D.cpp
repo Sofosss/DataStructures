@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <chrono> // C++ library to measure the running time of each algorithm using the clock with the highest resolution available  
+#include <unistd.h>
 
 #define MAX_SIZE 3240 // Max size of the array stored the daily transactions
 
@@ -41,6 +42,24 @@ int min(int a, int b);
 int main(int argc, char *argv[])
 {
     dataItem S[MAX_SIZE];
+    if (argc >= 2)
+	{
+		if (strcmp(argv[1], "binInterpolationSearch") == 0)
+			searchAlgPtr = &binInterpolationSearch;
+		else if (strcmp(argv[1], "binInterpolationSearchImproved") == 0)
+			searchAlgPtr = &binInterpolationSearchImproved;
+		else
+		{
+			printf("Invalid algorithm specified. Please use 'binInterpolationSearch' or 'binInterpolationSearchImproved'.\n");
+			return 1;
+		}
+	}
+	else
+	{
+		printf("Please specify the sorting algorithm to use as a command line argument. Options: 'binInterpolationSearch', 'binInterpolationSearchImproved'.\n");
+		return 1;
+	}
+
     int N = readFile(S, argc, argv); // N is the number of daily transactions read from file
 
     char x[11];
@@ -49,8 +68,6 @@ int main(int argc, char *argv[])
     printf("Give the date to search for (yyyy-mm-dd): ");
     scanf("%s", x);
 
- 	searchAlgPtr = &binInterpolationSearch; // searchAlgPtr = &binInterpolationSearchImproved;
-	 
 	typedef std :: chrono :: high_resolution_clock clock;
     // Start measuring running time
     auto startTime = clock :: now(); 
@@ -61,9 +78,9 @@ int main(int argc, char *argv[])
     auto endTime = clock :: now();
     auto elapsedTime = std :: chrono :: duration_cast<std :: chrono :: nanoseconds>(endTime - startTime).count();
 	
-	if (*searchAlgPtr == binInterpolationSearch) 
+	if (searchAlgPtr == &binInterpolationSearch) 
 		printf("\n\n[BINARY INTERPOLATION SEARCH]\n");
-	if (*searchAlgPtr == binInterpolationSearchImproved)
+	if (searchAlgPtr == &binInterpolationSearchImproved)
 		printf("\n\n[BINARY INTERPOLATION SEARCH IMPROVED]\n");
 		
 	if (pos == -1)
@@ -77,41 +94,52 @@ int main(int argc, char *argv[])
 
 
 // Open the file, read data records, store them to array arr and return the number of records read
-int readFile(dataItem arr[], int argc, char *argv[])  
+int readFile(dataItem arr[], int argc, char *argv[]) 
 {
     FILE *fp; 
-	char fileName[20], line[80];  
+    char *fileName;
+    char line[80]; 
     int numLines = 0; // Number of lines read from file
     dataItem dt;
- 
-    if (argc >= 2)  // Data filename passed as command line argument
-	    strcpy(fileName, argv[1]);
-	else
-	{
-		printf("Give the stock data filename: "); // Data filename asked by user
-        scanf("%s", fileName); printf("\n\n");
-    } 
-    
-	fp = fopen(fileName, "r");
-	if (!fp)
-	{
-		printf( "\nERROR: can't open file\n");
-		exit(1);
-	}
-    
-	fgets(line, 80, fp); // Get the first line
 
-	while (fgets(line, 80, fp))
+    if (argc >= 3)  // Data filename passed as a command line argument
+        fileName = strdup(argv[2]);
+    else
+    {
+        printf("Give the stock data filename: "); // Data filename asked by user
+        scanf("%ms", &fileName);
+        printf("\n\n");
+    } 
+
+    // Check if the file exists
+    if (access(fileName, F_OK) == -1)
+    {
+        printf("\nERROR: File '%s' not found\n", fileName);
+        free(fileName);
+        exit(1);
+    }
+
+    fp = fopen(fileName, "r");
+    if (!fp) // fp == NULL
+    {
+        printf("\nERROR: can't open file\n");
+        free(fileName);
+        exit(1);
+    }
+
+    fgets(line, 80, fp); // Get the first line
+
+    while (fgets(line, 80, fp))
     {
         sscanf(line, "%10s,%f,%f,%f,%f,%d,%d", dt.Date,  &dt.Open, &dt.High, &dt.Low, &dt.Close, &dt.Volume, &dt.OpenInt);
         arr[numLines] = dt;
         numLines++;
-    }
+    } 
 
+    free(fileName);
     fclose(fp);
-    return numLines; // Number of daily transactions read 
+    return numLines; // Number of daily transactions read
 }
-
 
 // Helping function to convert a Date field to its integer value
 unsigned long val(char s[]) 

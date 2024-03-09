@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <float.h>
 #include <chrono> // C++ library to measure the running time of each algorithm using the clock with the highest resolution available (nanoseconds) 
+#include <unistd.h>
 
 #define MAX_SIZE 3240 // Max size of the array stored the daily transactions
 
@@ -47,39 +48,60 @@ void printArray(dataItem arr[], int arrSize);
 int main(int argc, char *argv[])
 {
     dataItem S[MAX_SIZE];
-    int N = readFile(S, argc, argv); // N is the number of daily transactions read from file
 
-	srand(time(0)); // Use current time as seed for random generator used in randomized QuickSort
-	S[N].Open = FLT_MAX; strcpy(S[N].Date, "2021-05-19"); // Right guard needed in standard and randomized quickSort
-	
-	sortAlgPtr = &mergeSort; // sortAlgPtr = &quickSort; sortAlgPtr = &randomizedQuickSort; quickSort = &medOfThreeQuickSort; 
-	
-	typedef std :: chrono :: high_resolution_clock clock;
+    if (argc >= 2)
+    {
+        if (strcmp(argv[1], "mergeSort") == 0)
+            sortAlgPtr = &mergeSort;
+        else if (strcmp(argv[1], "quickSort") == 0)
+            sortAlgPtr = &quickSort;
+        else if (strcmp(argv[1], "randomizedQuickSort") == 0)
+            sortAlgPtr = &randomizedQuickSort;
+        else if (strcmp(argv[1], "medOfThreeQuickSort") == 0)
+            sortAlgPtr = &medOfThreeQuickSort;
+        else
+        {
+            printf("Invalid algorithm specified. Please use 'mergeSort', 'quickSort', 'randomizedQuickSort', or 'medOfThreeQuickSort'.\n");
+            return 1;
+        }
+    }
+    else
+    {
+        printf("Please specify the sorting algorithm to use as a command line argument. Options: 'mergeSort', 'quickSort', 'randomizedQuickSort', 'medOfThreeQuickSort'\n");
+        return 1;
+    }
+    
+    int N = readFile(S, argc, argv); // N is the number of daily transactions read from the file
+    srand(time(0)); // Use the current time as seed for the random generator used in randomized QuickSort
+    S[N].Open = FLT_MAX;
+    strcpy(S[N].Date, "2021-05-19"); // Right guard needed in standard and randomized quickSort
+
+    typedef std::chrono::high_resolution_clock clock;
     // Start measuring running time
-    auto startTime = clock :: now();
-	
-	(*sortAlgPtr)(S, 0, N-1); 
-	
-	// Stop measuring running time and calculate the elapsed time
-    auto endTime = clock :: now();
-    auto elapsedTime = std :: chrono :: duration_cast<std :: chrono :: nanoseconds>(endTime - startTime).count();
+    auto startTime = clock::now();
 
-	if (*sortAlgPtr == mergeSort) 
-		printf("[MERGESORT] ");
-	if (*sortAlgPtr == quickSort) 
-		printf("[STANDARD QUICKSORT] ");
-	if (*sortAlgPtr == randomizedQuickSort) 
-		printf("[RANDOMIZED QUICKSORT] ");
-	if (*sortAlgPtr == medOfThreeQuickSort)
-		printf("[MEDIAN OF THREE QUICKSORT] ");
-	
-	printf("SORTED ARRAY:\n\n");
-	printArray(S, N);
-	
-	printf("\n\nNumber of comparisons: %d\n", comps);
-	printf("Running time measured: %lg seconds\n", (double)elapsedTime * 1e-9);
-	
-	return 0;
+    (*sortAlgPtr)(S, 0, N - 1);
+
+    // Stop measuring running time and calculate the elapsed time
+    auto endTime = clock::now();
+    auto elapsedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime).count();
+
+    if (sortAlgPtr == &mergeSort)
+        printf("[MERGESORT] ");
+    else if (sortAlgPtr == &quickSort)
+        printf("[STANDARD QUICKSORT] ");
+    else if (sortAlgPtr == &randomizedQuickSort)
+        printf("[RANDOMIZED QUICKSORT] ");
+    else if (sortAlgPtr == &medOfThreeQuickSort)
+        printf("[MEDIAN OF THREE QUICKSORT] ");
+
+    printf("SORTED ARRAY:\n\n");
+    printArray(S, N);
+
+    printf("\n\nNumber of comparisons: %d\n", comps);
+    printf("Running time measured: %lg seconds\n", static_cast<double>(elapsedTime) * 1e-9);
+
+    return 0;
 }
 
 
@@ -87,35 +109,47 @@ int main(int argc, char *argv[])
 int readFile(dataItem arr[], int argc, char *argv[]) 
 {
     FILE *fp; 
-	char fileName[20], line[80]; 
+    char *fileName;
+    char line[80]; 
     int numLines = 0; // Number of lines read from file
     dataItem dt;
- 
-    if (argc >= 2)  // Data filename passed as command line argument
-	    strcpy(fileName, argv[1]);
-	else
-	{
-		printf("Give the stock data filename: "); // Data filename asked by user
-        scanf("%s", fileName); printf("\n\n");
-    } 
-    
-	fp = fopen(fileName, "r");
-	if (!fp)
-	{
-		printf( "\nERROR: can't open file\n");
-		exit(1);
-	}
 
-	fgets(line, 80, fp); // Get the first line
-	
-	while (fgets(line, 80, fp))
+    if (argc >= 3)  // Data filename passed as a command line argument
+        fileName = strdup(argv[2]);
+    else
+    {
+        printf("Give the stock data filename: "); // Data filename asked by user
+        scanf("%ms", &fileName);
+        printf("\n\n");
+    } 
+
+    // Check if the file exists
+    if (access(fileName, F_OK) == -1)
+    {
+        printf("\nERROR: File '%s' not found\n", fileName);
+        free(fileName);
+        exit(1);
+    }
+
+    fp = fopen(fileName, "r");
+    if (!fp) // fp == NULL
+    {
+        printf("\nERROR: can't open file\n");
+        free(fileName);
+        exit(1);
+    }
+
+    fgets(line, 80, fp); // Get the first line
+
+    while (fgets(line, 80, fp))
     {
         sscanf(line, "%10s,%f,%f,%f,%f,%d,%d", dt.Date,  &dt.Open, &dt.High, &dt.Low, &dt.Close, &dt.Volume, &dt.OpenInt);
         arr[numLines] = dt;
         numLines++;
     } 
-        
-	fclose(fp);
+
+    free(fileName);
+    fclose(fp);
     return numLines; // Number of daily transactions read
 }
 
