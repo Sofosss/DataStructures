@@ -2,10 +2,14 @@
 <br>
 <img src="./media/datastrct_logo.png" alt="logo" style="width:180px;margin-bottom:4vh">
 <br>
-<br>
 <strong>Data Structures Project 2021</strong>
 </h1>
+
+<h3 align="center">
+<i>A simple introductory project in the field of data structures. It includes the implementation of typical sorting and searching algorithms (along with some alternative versions and optimizations) (PART I), the development of BST trees (AVL and Red-Black) and the implementation of a Hashing structure using linked list chains (PART II).</i>
+</h3>
 <br>
+
 
 # Table of Contents
 * [About the project](#about-the-project)
@@ -111,13 +115,13 @@ For each different structure (AVL, RED-BLACK), a set of auxiliary functions is u
 
 📌 The rebalancing of the subtree with the root being the node T1 is performed using the functions btNode ``*rotateL(btNode *T1)`` and btNode ``*rotateR(btNode *T1)``, which implement the single left and right rotations. Double rotation involves either a single left and a single right rotation or a single right and a single left rotation.
 
->[!ΝΟΤΕ] 
+> [!NOTE]
 > In the case of the **AVL** tree, the insertion of a new node is concluded with at most a single or double terminal rotation, while in the deletion of a node, rotations may propagate up to the root of the tree.
 
->[!ΝΟΤΕ] 
+> [!NOTE] 
 > In the case of the **RED-BLACK** tree, for each insertion or deletion operation of a node at most one single and one double terminal rotation are executed.
 
->[!CAUTION]
+> [!CAUTION]
 > When a violation of the properties of the **RED-BLACK** tree occurs in the node 'r', the functions ``void fixRedRed(btNode *r)`` and ``void fixDoubleBlack(btNode *r)`` are called to correct the problem.
 - ``fixRedRed()`` is called during the insertion of a new node into the tree when two consecutive red nodes are created (red parent and red child).
 - ``fixDoubleBlack()`` is called during the deletion of a black node that leads to a reduction by 1 in the number of black nodes on the paths from the root of the tree that, before the deletion, they(the paths) passed through the deleted node. 
@@ -138,7 +142,7 @@ The function ```printBinTree()``` prints the structure of the tree from left to 
 ### ***Binary Search Tree implemented as AVL and RED-BLACK  based on the ``Volume`` field***
 As in the previous case, in [PartII_B_AVL][part-II-B-AVL-link] | [PartII_B_RB][part-II-B-RB-link] the tree is constructed with the function **insertToBinTree()**. The insertion of duplicate records (data records with identical values in the ``Date`` and ``Volume`` fields) is not allowed. As mentioned earlier, since all values in the ``Date`` field are unique, there are no duplicate records (the precaution against inserting duplicates is taken for completeness reasons).
 
-in this case (``Volume`` based BST), the operations to be executed on the structure of each individual BST are:  
+In this case (``Volume`` based BST), the operations to be executed on the structure of each individual BST are:  
 1. Finding the day/days with the **MINIMUM trading volume**.
 2. Finding the day/days with the **MAXIMUM trading volume**.
 
@@ -182,7 +186,7 @@ typedef struct listNode lNode;
 lNode *hashTable[M] = {NULL}; // Hash table of M buckets initially empty
 ```
  
-in this case (Hashing structure with chained (linked) lists), the operations to be executed are:
+In this case (Hashing structure with chained (linked) lists), the operations to be executed are:
 1. Search for the transaction volume based on the date provided by the user.
 2. Modify the record entries based on the date provided by the user. The modification specifically concerns **ONLY** the transaction volume field.
 3. Delete a record from the hash table based on the date provided by the user.
